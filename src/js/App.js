@@ -5,8 +5,25 @@ import {
     NavLink
 } from 'react-router-dom';
 import firebase, {db} from "./firebase";
+import {MuiThemeProvider, createMuiTheme} from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Header from './Header';
+import AddProduct from "./AddProduct";
+
+
+const theme = createMuiTheme({
+    palette: {
+        primary: {
+            main: '#9ccc65',
+        },
+        secondary: {
+            main: '#cddc39',
+        },
+    },
+    typography: {
+        useNextVariants: true,
+    }
+});
 
 class App extends React.Component {
     constructor(props) {
@@ -27,10 +44,13 @@ class App extends React.Component {
 
         return (
             <HashRouter>
-                <React.Fragment >
-                    <CssBaseline />
-                    <Header />
-                </React.Fragment >
+                <MuiThemeProvider theme={theme}>
+                    {/*<React.Fragment>*/}
+                        <CssBaseline/>
+                        <Header/>
+                        <AddProduct/>
+                    {/*</React.Fragment>*/}
+                </MuiThemeProvider>
             </HashRouter>
         );
     }
