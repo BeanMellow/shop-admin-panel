@@ -9,6 +9,7 @@ import {MuiThemeProvider, createMuiTheme} from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Header from './Header';
 import AddProduct from "./AddProduct";
+import ShowProducts from "./ShowProducts";
 
 
 const theme = createMuiTheme({
@@ -46,9 +47,10 @@ class App extends React.Component {
             <HashRouter>
                 <MuiThemeProvider theme={theme}>
                     {/*<React.Fragment>*/}
-                        <CssBaseline/>
-                        <Header/>
+                        <CssBaseline />
+                        <Header />
                         <AddProduct/>
+                        <ShowProducts />
                     {/*</React.Fragment>*/}
                 </MuiThemeProvider>
             </HashRouter>

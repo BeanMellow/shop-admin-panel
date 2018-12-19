@@ -79,12 +79,29 @@ class AddProduct extends React.Component {
     };
 
     handleSubmit = event => {
+        event.preventDefault();
         console.log(this.state);
-        const { state } = this.state;
-        console.log(state.name);
-        // db.collection('products').doc(this.state.name).set({
-        //     name: this.state
-        // })
+        db.collection(this.state.category).doc(this.state.SKU).set({
+            name: this.state.name,
+            category: this.state.category,
+            price: this.state.price,
+            currency: this.state.currency,
+            SKU: this.state.SKU,
+            imageUrl: this.state.imageUrl,
+            description: this.state.description
+        }).then(() => {
+            console.log('Product successfully added to database');
+            this.setState({
+                name: '',
+                category: 'hoodie',
+                price: '',
+                currency: 'EUR',
+                SKU: '',
+                imageUrl: '',
+                description: ''
+            });
+        })
+            .catch(error => console.log('Error writing document: ', error));
     };
 
     render() {
@@ -197,12 +214,12 @@ class AddProduct extends React.Component {
 
                         <Grid item xs={12} container justify={'center'} alignContent={'center'}>
                             <Button
-                            color={'primary'}
-                            variant={'outlined'}
-                            className={classes.button}
-                            fullWidth={true}
-                            type={'submit'}
-                            // size={'large'}
+                                color={'primary'}
+                                variant={'outlined'}
+                                className={classes.button}
+                                fullWidth={true}
+                                type={'submit'}
+                                // size={'large'}
                             >
                                 Add product
                             </Button>
