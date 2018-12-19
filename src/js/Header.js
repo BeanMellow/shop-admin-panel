@@ -7,9 +7,10 @@ import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 
-const styles = {
+const styles = theme => ({
     root: {
         flexGrow: 1,
+        marginBottom: theme.spacing.unit * 5
     },
     grow: {
         flexGrow: 1,
@@ -18,7 +19,7 @@ const styles = {
         marginLeft: -12,
         marginRight: 20,
     },
-};
+});
 
 @withStyles(styles)
 class Header extends React.Component {
