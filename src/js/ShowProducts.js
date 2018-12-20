@@ -34,10 +34,49 @@ const styles = theme => ({
         padding: theme.spacing.unit * 3,
         minWidth: 1550,
         width: '90%',
-        margin: '0 auto'
+        // margin: '0 auto',
+        // margin: `${theme.spacing.unit *3} auto`,
+        marginTop: theme.spacing.unit * 4,
+        margin: 'auto'
         // textAlign: 'center',
+    },
+    tableWrapper: {
+        overflowX: 'auto'
     }
+    // smallCol: {
+    //     width: 1
+    // }
 });
+
+const TableHeader = (props) => {
+    const headings = [
+        'Name',
+        'Category',
+        'Price',
+        'Currency',
+        'SKU',
+        'Image URL',
+        'Description',
+        'Action'
+    ];
+
+    const arrow = (
+        <i className="material-icons">
+            arrow_downward
+        </i>
+    );
+
+    return (
+        <TableRow>
+            {headings.map(heading => (
+                <TableCell key={heading} align={'center'}>
+                    {heading}
+                    {props.sort.category === heading && arrow}
+                </TableCell>
+            ))}
+        </TableRow>
+    );
+};
 
 const ProductRows = props => (
     props.allProducts.map(product => (
@@ -57,11 +96,37 @@ const ProductRows = props => (
                 {/*<IconButton onClick={handleDelete} variant={'extendedFab'}><i className='material-icons'>*/}
                 {/*delete*/}
                 {/*</i></IconButton>*/}
-                <DeleteDialog SKU={product.SKU} category={product.category} name={product.name} handleDelete={props.handleDelete}/>
+                <DeleteDialog SKU={product.SKU} category={product.category} name={product.name}
+                              handleDelete={props.handleDelete}/>
             </TableCell>
         </TableRow>
     ))
 );
+
+// const ProductRows = withStyles(styles)(props => (
+//     props.allProducts.map(product => (
+//         <TableRow key={product.SKU}>
+//             <TableCell className={props.classes.smallCol}>{product.name}</TableCell>
+//             <TableCell>{product.category}</TableCell>
+//             <TableCell>{product.price}</TableCell>
+//             <TableCell>{product.currency}</TableCell>
+//             <TableCell>{product.SKU}</TableCell>
+//             <TableCell>{product.imageUrl}</TableCell>
+//             <TableCell>{product.description}</TableCell>
+//             <TableCell>
+//                 <IconButton onClick={props.handleEdit} variant={'extendedFab'}><i className='material-icons'>
+//                     edit
+//                 </i></IconButton>
+//                 {/*<EditDialog SKU={product.SKU} category={product.category} name={product.name} handleEdit={props.handleEdit}/>*/}
+//                 {/*<IconButton onClick={handleDelete} variant={'extendedFab'}><i className='material-icons'>*/}
+//                 {/*delete*/}
+//                 {/*</i></IconButton>*/}
+//                 <DeleteDialog SKU={product.SKU} category={product.category} name={product.name}
+//                               handleDelete={props.handleDelete}/>
+//             </TableCell>
+//         </TableRow>
+//     ))
+// ));
 
 class DeleteDialog extends React.Component {
     state = {
@@ -110,7 +175,13 @@ class DeleteDialog extends React.Component {
 
 class ShowProducts extends React.Component {
     state = {
-        allProducts: []
+        allProducts: [],
+        sort: {
+            type: 'num',
+            category: 'SKU',
+            direction: 'asc'
+        }
+
     };
     // dzisiaj - all in one
     getDataFromDb = categories => {
@@ -125,9 +196,11 @@ class ShowProducts extends React.Component {
         });
     };
 
-    handleEdit = (event) => {
-        console.log(event.currentTarget);
-        console.log(this);
+    handleEdit = () => {
+        console.log(this.state.allProducts);
+        // this.handleNumericSort('price', 'asc');
+        console.log(Object.values(this.state.sort));
+        this.handleSort(Object.values(this.state.sort));
     };
 
     handleDelete = (SKU, category) => () => {
@@ -141,6 +214,45 @@ class ShowProducts extends React.Component {
             .catch(error => console.log('Error removing product: ', error));
     };
 
+    handleSort = (type, column, direction) => {
+        let newAllProducts = [...this.state.allProducts];
+
+        if (type === 'numeric') {
+            if (direction === 'desc') {
+                newAllProducts = newAllProducts.sort((a, b) => parseInt(b[column]) - parseInt(a[column]));
+            } else if (direction === 'asc') {
+                newAllProducts = newAllProducts.sort((a, b) => parseInt(a[column]) - parseInt(b[column]));
+            }
+        } else if (type === 'alphabetic') {
+            if (direction === 'desc') {
+                newAllProducts = newAllProducts.sort((a, b) => {
+                    if (a[column] > b[column]) {
+                        return -1;
+                    }
+                    if (a[column] < b[column]) {
+                        return 1;
+                    }
+                    return 0;
+                });
+            } else if (direction === 'asc') {
+                newAllProducts = newAllProducts.sort((a, b) => {
+                    if (a[column] < b[column]) {
+                        return -1;
+                    }
+                    if (a[column] > b[column]) {
+                        return 1;
+                    }
+                    return 0;
+                });
+            }
+        }
+
+        console.log(newAllProducts);
+        this.setState({
+            allProducts: newAllProducts
+        });
+    };
+
     render() {
         const {classes} = this.props;
 
@@ -149,14 +261,19 @@ class ShowProducts extends React.Component {
             result = (
                 <React.Fragment>
                     <Paper className={classes.root}>
-                        <Table>
-                            <TableBody>
-                                <ProductRows allProducts={this.state.allProducts}
-                                             handleEdit={this.handleEdit}
-                                             handleDelete={this.handleDelete}
-                                />
-                            </TableBody>
-                        </Table>
+                        <div className={classes.tableWrapper}>
+                            <Table>
+                                <TableHead>
+                                    <TableHeader sort={this.state.sort} />
+                                </TableHead>
+                                <TableBody>
+                                    <ProductRows allProducts={this.state.allProducts}
+                                                 handleEdit={this.handleEdit}
+                                                 handleDelete={this.handleDelete}
+                                    />
+                                </TableBody>
+                            </Table>
+                        </div>
                     </Paper>
                 </React.Fragment>
             );
@@ -168,7 +285,7 @@ class ShowProducts extends React.Component {
     }
 
     componentDidMount() {
-        this.getDataFromDb(['hoodie', 't-shirt', 'tank-top', 'jumper', 'windbreaker']);
+        this.getDataFromDb(['hoodie', 'jumper', 't-shirt', 'tank-top', 'windbreaker']);
 
     }
 }
