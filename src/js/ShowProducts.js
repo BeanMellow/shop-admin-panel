@@ -49,15 +49,50 @@ const styles = theme => ({
 });
 
 const TableHeader = (props) => {
+    // const headings = [
+    //     'Name',
+    //     'Category',
+    //     'Price',
+    //     'Currency',
+    //     'SKU',
+    //     'Image URL',
+    //     'Description',
+    //     'Action'
+    // ];
+
     const headings = [
-        'Name',
-        'Category',
-        'Price',
-        'Currency',
-        'SKU',
-        'Image URL',
-        'Description',
-        'Action'
+        {
+            displayName: 'Name',
+            objectName: 'name'
+        },
+        {
+            displayName: 'Category',
+            objectName: 'category'
+        },
+        {
+            displayName: 'Price',
+            objectName: 'price'
+        },
+        {
+            displayName: 'Currency',
+            objectName: 'currency'
+        },
+        {
+            displayName: 'SKU',
+            objectName: 'SKU'
+        },
+        {
+            displayName: 'Image URL',
+            objectName: 'imageUrl'
+        },
+        {
+            displayName: 'Description',
+            objectName: 'description'
+        },
+        {
+            displayName: 'Action',
+            objectName: 'action'
+        }
     ];
 
     const arrow = (
@@ -66,12 +101,24 @@ const TableHeader = (props) => {
         </i>
     );
 
+    const handleClick = heading => {
+        // props.updateSortState
+        const numeric = ['price', 'SKU'];
+        if (numeric.includes(heading)) {
+            console.log(heading, 'num');
+            props.updateSortState('numeric', heading, 'desc');
+        } else {
+            console.log(heading, 'alphabetic');
+            props.updateSortState('alphabetic', heading, 'desc');
+        }
+    };
+
     return (
         <TableRow>
             {headings.map(heading => (
-                <TableCell key={heading} align={'center'}>
-                    {heading}
-                    {props.sort.category === heading && arrow}
+                <TableCell onClick={() => handleClick(heading.objectName)} key={heading.displayName} align={'center'}>
+                    {heading.displayName}
+                    {props.sort.category === heading.objectName && arrow}
                 </TableCell>
             ))}
         </TableRow>
@@ -177,7 +224,7 @@ class ShowProducts extends React.Component {
     state = {
         allProducts: [],
         sort: {
-            type: 'num',
+            type: 'numeric',
             category: 'SKU',
             direction: 'asc'
         }
@@ -214,10 +261,24 @@ class ShowProducts extends React.Component {
             .catch(error => console.log('Error removing product: ', error));
     };
 
+    updateSortState = (type, category, direction) => {
+        this.setState({
+            sort: {
+                type,
+                category,
+                direction
+            }
+        });
+
+        this.handleSort(type, category, direction);
+
+    };
+
     handleSort = (type, column, direction) => {
         let newAllProducts = [...this.state.allProducts];
 
         if (type === 'numeric') {
+
             if (direction === 'desc') {
                 newAllProducts = newAllProducts.sort((a, b) => parseInt(b[column]) - parseInt(a[column]));
             } else if (direction === 'asc') {
@@ -264,7 +325,9 @@ class ShowProducts extends React.Component {
                         <div className={classes.tableWrapper}>
                             <Table>
                                 <TableHead>
-                                    <TableHeader sort={this.state.sort} />
+                                    <TableHeader sort={this.state.sort}
+                                                 updateSortState={this.updateSortState}
+                                    />
                                 </TableHead>
                                 <TableBody>
                                     <ProductRows allProducts={this.state.allProducts}
