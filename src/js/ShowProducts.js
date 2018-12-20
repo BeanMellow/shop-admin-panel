@@ -25,6 +25,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import EditProduct from "./EditProduct";
 
 const styles = theme => ({
     grow: {
@@ -95,7 +96,7 @@ const TableHeader = (props) => {
     const handleClick = heading => {
         const newSortState = [];
         if (heading === 'price' || heading === 'SKU') {
-            newSortState.push ('numeric');
+            newSortState.push('numeric');
         } else {
             newSortState.push('alphabetic');
         }
@@ -128,7 +129,7 @@ const ProductRows = props => (
             <TableCell>{product.imageUrl}</TableCell>
             <TableCell>{product.description}</TableCell>
             <TableCell>
-                <IconButton onClick={props.handleEdit} variant={'extendedFab'}><i className='material-icons'>
+                <IconButton onClick={props.handleEdit(product)} variant={'extendedFab'}><i className='material-icons'>
                     edit
                 </i></IconButton>
                 {/*<EditDialog SKU={product.SKU} category={product.category} name={product.name} handleEdit={props.handleEdit}/>*/}
@@ -219,8 +220,13 @@ class ShowProducts extends React.Component {
             type: 'numeric',
             category: 'SKU',
             direction: 'asc'
+        },
+        edit: {
+            isEdit: false
         }
-
+        // edit: false,
+        // editSKU: '',
+        // editCategory: ''
     };
     // dzisiaj - all in one
     getDataFromDb = categories => {
@@ -231,15 +237,31 @@ class ShowProducts extends React.Component {
                 this.setState({
                     allProducts: result
                 });
-            });
+            }).catch(error => console.log('Error getting data: ' + error));
         });
     };
 
-    handleEdit = () => {
-        console.log(this.state.allProducts);
-        // this.handleNumericSort('price', 'asc');
-        console.log(Object.values(this.state.sort));
-        this.handleSort(Object.values(this.state.sort));
+    handleEdit = product => () => {
+        // TODO: add handle sort before set state (without changing state during sort)
+        this.setState({
+            edit: {
+                isEdit: true,
+                product
+            }
+        });
+    };
+
+    finishEdit = updatedProduct => {
+        //TODO: check if this can be done better
+        let newAllProducts = [...this.state.allProducts];
+        const index = newAllProducts.map(e => e.SKU).indexOf(updatedProduct.SKU);
+        newAllProducts.splice(index, 1, updatedProduct);
+        this.setState({
+            allProducts: newAllProducts,
+            edit: {
+                isEdit: false
+            }
+        });
     };
 
     handleDelete = (SKU, category) => () => {
@@ -300,7 +322,6 @@ class ShowProducts extends React.Component {
             }
         }
 
-        console.log(newAllProducts);
         this.setState({
             allProducts: newAllProducts
         });
@@ -310,7 +331,9 @@ class ShowProducts extends React.Component {
         const {classes} = this.props;
 
         let result;
-        if (this.state.allProducts.length > 0) {
+        if (this.state.edit.isEdit) {
+            result = <EditProduct product={this.state.edit.product} finishEdit={this.finishEdit}/>
+        } else if (this.state.allProducts.length > 0) {
             result = (
                 <React.Fragment>
                     <Paper className={classes.root}>

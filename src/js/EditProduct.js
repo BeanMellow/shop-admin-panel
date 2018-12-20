@@ -10,15 +10,15 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 
 
-class AddProduct extends React.Component {
+class EditProduct extends React.Component {
     state = {
-        name: '',
-        category: 'hoodie',
-        price: '',
-        currency: 'EUR',
-        SKU: '',
-        imageUrl: '',
-        description: ''
+        name: this.props.product.name,
+        category: this.props.product.category,
+        price: this.props.product.price,
+        currency: this.props.product.currency,
+        SKU: this.props.product.SKU,
+        imageUrl: this.props.product.imageUrl,
+        description: this.props.product.description
     };
 
     handleChange = name => event => {
@@ -29,7 +29,6 @@ class AddProduct extends React.Component {
 
     handleSubmit = event => {
         event.preventDefault();
-        console.log(this.state);
         db.collection(this.state.category).doc(this.state.SKU).set({
             name: this.state.name,
             category: this.state.category,
@@ -39,16 +38,20 @@ class AddProduct extends React.Component {
             imageUrl: this.state.imageUrl,
             description: this.state.description
         }).then(() => {
-            console.log('Product successfully added to database');
-            this.setState({
-                name: '',
-                category: 'hoodie',
-                price: '',
-                currency: 'EUR',
-                SKU: '',
-                imageUrl: '',
-                description: ''
-            });
+            // TODO: ten set state ponizej mi tu chyba niepotrzebny, tylo submit
+            console.log('Product successfully updated');
+            this.props.finishEdit(this.state);
+            // this.setState({
+            //     name: '',
+            //     category: 'hoodie',
+            //     price: '',
+            //     currency: 'EUR',
+            //     SKU: '',
+            //     imageUrl: '',
+            //     description: ''
+            // }, () => {
+            //     this.props.finishEdit();
+            // });
         })
             .catch(error => console.log('Error writing document: ', error));
     };
@@ -60,10 +63,10 @@ class AddProduct extends React.Component {
             <ProductForm state={this.state}
                          handleChange={this.handleChange}
                          handleSubmit={this.handleSubmit}
-                         isEdit={false}
+                         isEdit={true}
             />
         );
     }
 }
 
-export default AddProduct;
+export default EditProduct;
