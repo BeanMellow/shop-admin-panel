@@ -39,40 +39,16 @@ const styles = theme => ({
     }
 });
 
-// this is working, below trying to make 'delete' work by passing SKU as props
-// const CategoryConcat = (category, handleEdit, handleDelete) => (
-//     category.map(el => (
-//         <TableRow key={el.SKU}>
-//             <TableCell>{el.name}</TableCell>
-//             <TableCell>{el.category}</TableCell>
-//             <TableCell>{el.price}</TableCell>
-//             <TableCell>{el.currency}</TableCell>
-//             <TableCell>{el.SKU}</TableCell>
-//             <TableCell>{el.imageUrl}</TableCell>
-//             <TableCell>{el.description}</TableCell>
-//             <TableCell>
-//                 <IconButton onClick={handleEdit} variant={'extendedFab'}><i className='material-icons'>
-//                     edit
-//                 </i></IconButton>
-//                 {/*<IconButton onClick={handleDelete} variant={'extendedFab'}><i className='material-icons'>*/}
-//                     {/*delete*/}
-//                 {/*</i></IconButton>*/}
-//                 <DeleteDialog />
-//             </TableCell>
-//         </TableRow>
-//     ))
-// );
-
-const CategoryConcat = (category, handleEdit, handleDelete) => (
-    category.map(el => (
-        <TableRow key={el.SKU}>
-            <TableCell>{el.name}</TableCell>
-            <TableCell>{el.category}</TableCell>
-            <TableCell>{el.price}</TableCell>
-            <TableCell>{el.currency}</TableCell>
-            <TableCell>{el.SKU}</TableCell>
-            <TableCell>{el.imageUrl}</TableCell>
-            <TableCell>{el.description}</TableCell>
+const ProductRows = (category, handleEdit, handleDelete) => (
+    category.map(product => (
+        <TableRow key={product.SKU}>
+            <TableCell>{product.name}</TableCell>
+            <TableCell>{product.category}</TableCell>
+            <TableCell>{product.price}</TableCell>
+            <TableCell>{product.currency}</TableCell>
+            <TableCell>{product.SKU}</TableCell>
+            <TableCell>{product.imageUrl}</TableCell>
+            <TableCell>{product.description}</TableCell>
             <TableCell>
                 <IconButton onClick={handleEdit} variant={'extendedFab'}><i className='material-icons'>
                     edit
@@ -80,34 +56,11 @@ const CategoryConcat = (category, handleEdit, handleDelete) => (
                 {/*<IconButton onClick={handleDelete} variant={'extendedFab'}><i className='material-icons'>*/}
                 {/*delete*/}
                 {/*</i></IconButton>*/}
-                <DeleteDialog sku={el.SKU} />
+                <DeleteDialog sku={product.SKU} handleDelete={this.props.handleDelete}/>
             </TableCell>
         </TableRow>
     ))
 );
-
-const CategoryRows = (category, handleEdit, handleDelete) => {
-    const result = category.map(el => el.map(el => (
-        <TableRow key={el.SKU}>
-            <TableCell>{el.name}</TableCell>
-            <TableCell>{el.category}</TableCell>
-            <TableCell>{el.price}</TableCell>
-            <TableCell>{el.currency}</TableCell>
-            <TableCell>{el.SKU}</TableCell>
-            <TableCell>{el.imageUrl}</TableCell>
-            <TableCell>{el.description}</TableCell>
-            <TableCell>
-                <IconButton onClick={handleEdit} variant={'extendedFab'}><i className='material-icons'>
-                    edit
-                </i></IconButton>
-                <IconButton onClick={handleDelete} variant={'extendedFab'}><i className='material-icons'>
-                    delete
-                </i></IconButton>
-            </TableCell>
-        </TableRow>
-    )));
-    return result;
-};
 
 class DeleteDialog extends React.Component {
     state = {
@@ -115,19 +68,19 @@ class DeleteDialog extends React.Component {
     };
 
     handleClickOpen = () => {
-        this.setState({ open: true });
+        this.setState({open: true});
         console.log(this.props.sku);
     };
 
     handleClose = () => {
-        this.setState({ open: false });
+        this.setState({open: false});
     };
 
     render() {
         return (
             <div>
                 {/*<Button variant='outlined' onClick={this.handleClickOpen}>*/}
-                    {/*Open alert dialog*/}
+                {/*Open alert dialog*/}
                 {/*</Button>*/}
                 <IconButton onClick={this.handleClickOpen} variant={'extendedFab'}><i className='material-icons'>
                     delete
@@ -145,7 +98,7 @@ class DeleteDialog extends React.Component {
                         </DialogContentText>
                     </DialogContent>
                     <DialogActions>
-                        <Button onClick={this.handleClose} color='primary' autoFocus >
+                        <Button onClick={this.handleClose} color='primary' autoFocus>
                             Cancel
                         </Button>
                         <Button onClick={this.handleClose} color='primary'>
@@ -160,22 +113,38 @@ class DeleteDialog extends React.Component {
 
 class ShowProducts extends React.Component {
     state = {
-        hoodie: [],
-        tshirt: [],
-        tanktop: [],
-        jumper: [],
-        windbreaker: []
+        allProducts: []
+        // hoodie: [],
+        // tshirt: [],
+        // tanktop: [],
+        // jumper: [],
+        // windbreaker: []
     };
 
-    getDataFromDb = category => {
+    // // dzisiaj - na kategorie
+    // getDataFromDb = categories => {
+    //     categories.forEach(category => {
+    //         const result = [];
+    //         const name = category.replace('-', '');
+    //
+    //         db.collection(category).get().then(product => {
+    //             product.forEach(property => result.push(property.data()));
+    //             this.setState({
+    //                 [name]: result
+    //             });
+    //         });
+    //     });
+    // };
+
+    // dzisiaj - all in one
+    getDataFromDb = categories => {
         const result = [];
-        db.collection(category).get().then(doc => {
-            doc.forEach(el => result.push(el.data()));
-            // remove '-' from name
-            let name = [...category];
-            name = name.filter(el => el !== '-').join('');
-            this.setState({
-                [name]: result
+        categories.forEach(category => {
+            db.collection(category).get().then(product => {
+                product.forEach(property => result.push(property.data()));
+                this.setState({
+                    allProducts: result
+                });
             });
         });
     };
@@ -192,26 +161,12 @@ class ShowProducts extends React.Component {
 
     render() {
         const {classes} = this.props;
-
-        const allProducts = this.state.hoodie
-            .concat(this.state.tshirt)
-            .concat(this.state.tanktop)
-            .concat(this.state.jumper)
-            .concat(this.state.windbreaker);
-
-        // a to ??
-        // const allProducts = Object.keys(this.state).reduce((prev, curr) => (
-        //  prev.concat(this.state[curr])
-        // ));
-
-        // const productsArr = Object.values(this.state);
-        // console.log(productsArr);
-        console.log(allProducts);
+        console.log(this.state);
 
         let result;
-        if (allProducts.length > 0) {
+        if (this.state.allProducts.length > 0) {
             // const rows = CategoryRows(productsArr, this.handleEdit, this.handleDelete);
-            const rows = CategoryConcat(allProducts, this.handleEdit, this.handleDelete);
+            const rows = ProductRows(this.state.allProducts, this.handleEdit, this.handleDelete);
             result = (
                 <React.Fragment>
                     <Paper className={classes.root}>
@@ -224,18 +179,14 @@ class ShowProducts extends React.Component {
                 </React.Fragment>
             );
         } else {
-            result = <CircularProgress />;
+            result = <CircularProgress/>;
         }
 
         return result;
     }
 
     componentDidMount() {
-        this.getDataFromDb('hoodie');
-        this.getDataFromDb('t-shirt');
-        this.getDataFromDb('tank-top');
-        this.getDataFromDb('jumper');
-        this.getDataFromDb('windbreaker');
+        this.getDataFromDb(['hoodie', 't-shirt', 'tank-top', 'jumper', 'windbreaker']);
 
     }
 }
