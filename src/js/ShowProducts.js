@@ -53,10 +53,11 @@ const ProductRows = props => (
                 <IconButton onClick={props.handleEdit} variant={'extendedFab'}><i className='material-icons'>
                     edit
                 </i></IconButton>
+                {/*<EditDialog SKU={product.SKU} category={product.category} name={product.name} handleEdit={props.handleEdit}/>*/}
                 {/*<IconButton onClick={handleDelete} variant={'extendedFab'}><i className='material-icons'>*/}
                 {/*delete*/}
                 {/*</i></IconButton>*/}
-                <DeleteDialog SKU={product.SKU} category={product.category} handleDelete={props.handleDelete}/>
+                <DeleteDialog SKU={product.SKU} category={product.category} name={product.name} handleDelete={props.handleDelete}/>
             </TableCell>
         </TableRow>
     ))
@@ -69,7 +70,6 @@ class DeleteDialog extends React.Component {
 
     handleClickOpen = () => {
         this.setState({open: true});
-        console.log(this.props.SKU);
     };
 
     handleClose = () => {
@@ -79,22 +79,19 @@ class DeleteDialog extends React.Component {
     render() {
         return (
             <div>
-                {/*<Button variant='outlined' onClick={this.handleClickOpen}>*/}
-                {/*Open alert dialog*/}
-                {/*</Button>*/}
                 <IconButton onClick={this.handleClickOpen} variant={'extendedFab'}><i className='material-icons'>
                     delete
                 </i></IconButton>
                 <Dialog
                     open={this.state.open}
                     onClose={this.handleClose}
-                    aria-labelledby='alert-dialog-title'
-                    aria-describedby='alert-dialog-description'
+                    // aria-labelledby='alert-dialog-title'
+                    // aria-describedby='alert-dialog-description'
                 >
-                    <DialogTitle id='alert-dialog-title'>{'Delete'}</DialogTitle>
+                    <DialogTitle id='delete-dialog-title'>Delete {this.props.name}</DialogTitle>
                     <DialogContent>
-                        <DialogContentText id='alert-dialog-description'>
-                            Delete selected product from database. This action is permanent.
+                        <DialogContentText id='delete-dialog-description'>
+                            Delete selected product from database (SKU: {this.props.SKU}). This action is permanent.
                         </DialogContentText>
                     </DialogContent>
                     <DialogActions>
@@ -104,9 +101,6 @@ class DeleteDialog extends React.Component {
                         <Button onClick={this.props.handleDelete(this.props.SKU, this.props.category)} color='primary'>
                             Delete
                         </Button>
-                        {/*<Button onClick={this.handleClose} color='primary'>*/}
-                            {/*Delete*/}
-                        {/*</Button>*/}
                     </DialogActions>
                 </Dialog>
             </div>
@@ -117,28 +111,7 @@ class DeleteDialog extends React.Component {
 class ShowProducts extends React.Component {
     state = {
         allProducts: []
-        // hoodie: [],
-        // tshirt: [],
-        // tanktop: [],
-        // jumper: [],
-        // windbreaker: []
     };
-
-    // // dzisiaj - na kategorie
-    // getDataFromDb = categories => {
-    //     categories.forEach(category => {
-    //         const result = [];
-    //         const name = category.replace('-', '');
-    //
-    //         db.collection(category).get().then(product => {
-    //             product.forEach(property => result.push(property.data()));
-    //             this.setState({
-    //                 [name]: result
-    //             });
-    //         });
-    //     });
-    // };
-
     // dzisiaj - all in one
     getDataFromDb = categories => {
         const result = [];
@@ -170,7 +143,6 @@ class ShowProducts extends React.Component {
 
     render() {
         const {classes} = this.props;
-        console.log(this.state);
 
         let result;
         if (this.state.allProducts.length > 0) {
