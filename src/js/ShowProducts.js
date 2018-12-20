@@ -49,16 +49,6 @@ const styles = theme => ({
 });
 
 const TableHeader = (props) => {
-    // const headings = [
-    //     'Name',
-    //     'Category',
-    //     'Price',
-    //     'Currency',
-    //     'SKU',
-    //     'Image URL',
-    //     'Description',
-    //     'Action'
-    // ];
 
     const headings = [
         {
@@ -89,38 +79,40 @@ const TableHeader = (props) => {
             displayName: 'Description',
             objectName: 'description'
         },
-        {
-            displayName: 'Action',
-            objectName: 'action'
-        }
+        // {
+        //     displayName: 'Action',
+        //     objectName: 'action'
+        // }
     ];
 
-    const arrow = (
-        <i className="material-icons">
-            arrow_downward
-        </i>
-    );
+    let arrow;
+    if (props.sort.direction === 'desc') {
+        arrow = <i className="material-icons">arrow_downward</i>;
+    } else if (props.sort.direction === 'asc') {
+        arrow = <i className="material-icons">arrow_upward</i>;
+    }
 
     const handleClick = heading => {
-        // props.updateSortState
-        const numeric = ['price', 'SKU'];
-        if (numeric.includes(heading)) {
-            console.log(heading, 'num');
-            props.updateSortState('numeric', heading, 'desc');
+        const newSortState = [];
+        if (heading === 'price' || heading === 'SKU') {
+            newSortState.push ('numeric');
         } else {
-            console.log(heading, 'alphabetic');
-            props.updateSortState('alphabetic', heading, 'desc');
+            newSortState.push('alphabetic');
         }
+        newSortState.push(heading);
+        props.sort.direction === 'desc' ? newSortState.push('asc') : newSortState.push('desc');
+        props.updateSortState(...newSortState);
     };
 
     return (
         <TableRow>
             {headings.map(heading => (
-                <TableCell onClick={() => handleClick(heading.objectName)} key={heading.displayName} align={'center'}>
+                <TableCell onClick={() => handleClick(heading.objectName)} key={heading.objectName} align={'center'}>
                     {heading.displayName}
                     {props.sort.category === heading.objectName && arrow}
                 </TableCell>
             ))}
+            <TableCell align={'center'}>Action</TableCell>
         </TableRow>
     );
 };
