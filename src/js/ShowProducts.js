@@ -39,8 +39,8 @@ const styles = theme => ({
     }
 });
 
-const ProductRows = (category, handleEdit, handleDelete) => (
-    category.map(product => (
+const ProductRows = props => (
+    props.allProducts.map(product => (
         <TableRow key={product.SKU}>
             <TableCell>{product.name}</TableCell>
             <TableCell>{product.category}</TableCell>
@@ -50,13 +50,13 @@ const ProductRows = (category, handleEdit, handleDelete) => (
             <TableCell>{product.imageUrl}</TableCell>
             <TableCell>{product.description}</TableCell>
             <TableCell>
-                <IconButton onClick={handleEdit} variant={'extendedFab'}><i className='material-icons'>
+                <IconButton onClick={props.handleEdit} variant={'extendedFab'}><i className='material-icons'>
                     edit
                 </i></IconButton>
                 {/*<IconButton onClick={handleDelete} variant={'extendedFab'}><i className='material-icons'>*/}
                 {/*delete*/}
                 {/*</i></IconButton>*/}
-                <DeleteDialog sku={product.SKU} handleDelete={this.props.handleDelete}/>
+                <DeleteDialog SKU={product.SKU} category={product.category} handleDelete={props.handleDelete}/>
             </TableCell>
         </TableRow>
     ))
@@ -69,7 +69,7 @@ class DeleteDialog extends React.Component {
 
     handleClickOpen = () => {
         this.setState({open: true});
-        console.log(this.props.sku);
+        console.log(this.props.SKU);
     };
 
     handleClose = () => {
@@ -101,9 +101,12 @@ class DeleteDialog extends React.Component {
                         <Button onClick={this.handleClose} color='primary' autoFocus>
                             Cancel
                         </Button>
-                        <Button onClick={this.handleClose} color='primary'>
+                        <Button onClick={this.props.handleDelete(this.props.SKU, this.props.category)} color='primary'>
                             Delete
                         </Button>
+                        {/*<Button onClick={this.handleClose} color='primary'>*/}
+                            {/*Delete*/}
+                        {/*</Button>*/}
                     </DialogActions>
                 </Dialog>
             </div>
@@ -154,9 +157,15 @@ class ShowProducts extends React.Component {
         console.log(this);
     };
 
-    handleDelete = (event) => {
-        console.log(event.target);
-        console.log(this);
+    handleDelete = (SKU, category) => () => {
+        const newAllProducts = this.state.allProducts.filter(product => product.SKU !== SKU);
+        this.setState({
+            allProducts: newAllProducts
+        });
+
+        db.collection(category).doc(SKU).delete()
+            .then(() => console.log('Product successfully deleted.'))
+            .catch(error => console.log('Error removing product: ', error));
     };
 
     render() {
@@ -165,14 +174,15 @@ class ShowProducts extends React.Component {
 
         let result;
         if (this.state.allProducts.length > 0) {
-            // const rows = CategoryRows(productsArr, this.handleEdit, this.handleDelete);
-            const rows = ProductRows(this.state.allProducts, this.handleEdit, this.handleDelete);
             result = (
                 <React.Fragment>
                     <Paper className={classes.root}>
                         <Table>
                             <TableBody>
-                                {rows}
+                                <ProductRows allProducts={this.state.allProducts}
+                                             handleEdit={this.handleEdit}
+                                             handleDelete={this.handleDelete}
+                                />
                             </TableBody>
                         </Table>
                     </Paper>
