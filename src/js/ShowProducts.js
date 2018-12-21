@@ -38,7 +38,8 @@ const styles = theme => ({
         // margin: '0 auto',
         // margin: `${theme.spacing.unit *3} auto`,
         marginTop: theme.spacing.unit * 4,
-        margin: 'auto'
+        marginLeft: 'auto',
+        marginRight: 'auto'
         // textAlign: 'center',
     },
     tableWrapper: {
