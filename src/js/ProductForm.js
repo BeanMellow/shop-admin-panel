@@ -22,15 +22,15 @@ const styles = theme => ({
         // textAlign: 'center',
     },
     textField: {
-        margin: theme.spacing.unit,
+        margin: theme.spacing.unit * 3,
         width: '90%',
     },
     textArea: {
-        margin: theme.spacing.unit,
+        margin: theme.spacing.unit * 3,
         width: '92%'
     },
     button: {
-        margin: theme.spacing.unit,
+        margin: theme.spacing.unit * 3,
         width: '50%'
     }
 });

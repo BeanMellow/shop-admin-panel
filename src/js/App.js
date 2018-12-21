@@ -11,6 +11,7 @@ import Header from './Header';
 import AddProduct from "./AddProduct";
 import ShowProducts from "./ShowProducts";
 import Main from './Main';
+// import LoginDialog from './LoginDialog';
 
 
 const theme = createMuiTheme({
@@ -31,7 +32,7 @@ class App extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            isLogged: true
+            isLogged: false
         }
     }
 
@@ -41,7 +42,7 @@ class App extends React.Component {
         // if (this.state.isLogged) {
         //     result = <Header />;
         // } else {
-        //     result = null;
+        //     result = (null);
         // }
 
         return (
@@ -51,6 +52,7 @@ class App extends React.Component {
                     <CssBaseline/>
                     <Header/>
                     <Route exact path={'/'} component={Main} />
+                    {/*<Route exact path={'/login'} component={LoginDialog} />*/}
                     <Route path={'/addproduct'} component={AddProduct} />
                     <Route path={'/products'} component={ShowProducts} />
                     {/*<AddProduct/>*/}

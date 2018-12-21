@@ -33,13 +33,16 @@ const styles = theme => ({
     },
     root: {
         padding: theme.spacing.unit * 3,
-        minWidth: 1550,
+        // minWidth: 1550,
+        minWidth: 1350,
         width: '90%',
-        // margin: '0 auto',
-        // margin: `${theme.spacing.unit *3} auto`,
-        marginTop: theme.spacing.unit * 4,
+        marginBottom: 50,
         marginLeft: 'auto',
         marginRight: 'auto'
+        // margin: `${theme.spacing.unit *3} auto`,
+        // marginTop: theme.spacing.unit * 4,
+        // marginLeft: 'auto',
+        // marginRight: 'auto'
         // textAlign: 'center',
     },
     tableWrapper: {
@@ -109,12 +112,12 @@ const TableHeader = (props) => {
     return (
         <TableRow>
             {headings.map(heading => (
-                <TableCell onClick={() => handleClick(heading.objectName)} key={heading.objectName} align={'center'}>
+                <TableCell padding={"none"} onClick={() => handleClick(heading.objectName)} key={heading.objectName} align={'center'}>
                     {heading.displayName}
                     {props.sort.category === heading.objectName && arrow}
                 </TableCell>
             ))}
-            <TableCell align={'center'}>Action</TableCell>
+            <TableCell padding={"none"} align={'center'}>Action</TableCell>
         </TableRow>
     );
 };
@@ -357,7 +360,13 @@ class ShowProducts extends React.Component {
                 </React.Fragment>
             );
         } else {
-            result = <CircularProgress/>;
+            // result = <CircularProgress/>;
+            result = (
+             <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', height: '200px'}}>
+                 <CircularProgress/>
+             </div>
+            );
+
         }
 
         return result;
