@@ -13,16 +13,17 @@ import {
 const styles = theme => ({
     root: {
         flexGrow: 1,
-        marginBottom: theme.spacing.unit * 5
+        marginBottom: theme.spacing.unit * 5,
+        minWidth: 500
     },
     grow: {
         flexGrow: 1,
-        marginLeft: 70
+        // marginLeft: 70
     },
     menuButton: {
         // marginLeft: -12,
         // marginRight: 50,
-        marginRight: 50,
+        // marginRight: 50,
         padding: 30
     },
     icon: {
@@ -85,6 +86,11 @@ class Header extends React.Component {
                                 // to={'login'}
                         >
                             Login
+                            <i className="material-icons"
+                               style={iconStyle}
+                            >
+                                account_circle
+                            </i>
                         </Button>
                     </Toolbar>
                 </AppBar>

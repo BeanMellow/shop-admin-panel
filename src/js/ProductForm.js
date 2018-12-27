@@ -15,10 +15,14 @@ const styles = theme => ({
     container: {
         display: 'flex',
         flexWrap: 'wrap',
+        margin: '0 auto'
+
     },
     paper: {
         padding: theme.spacing.unit * 3,
-        width: '90%'
+        width: '90%',
+        minWidth: 500,
+        // margin: '0 auto'
         // textAlign: 'center',
     },
     textField: {

@@ -47,10 +47,13 @@ const styles = theme => ({
     },
     tableWrapper: {
         overflowX: 'auto'
+    },
+    loader: {
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: '200px'
     }
-    // smallCol: {
-    //     width: 1
-    // }
 });
 
 const TableHeader = (props) => {
@@ -360,13 +363,11 @@ class ShowProducts extends React.Component {
                 </React.Fragment>
             );
         } else {
-            // result = <CircularProgress/>;
             result = (
-             <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', height: '200px'}}>
-                 <CircularProgress/>
-             </div>
+                <div className={classes.loader}>
+                    <CircularProgress/>
+                </div>
             );
-
         }
 
         return result;
