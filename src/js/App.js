@@ -11,6 +11,7 @@ import Header from './Header';
 import AddProduct from "./AddProduct";
 import ShowProducts from "./ShowProducts";
 import Main from './Main';
+import EditProduct from "./EditProduct";
 // import LoginDialog from './LoginDialog';
 
 
@@ -55,6 +56,7 @@ class App extends React.Component {
                     {/*<Route exact path={'/login'} component={LoginDialog} />*/}
                     <Route path={'/addproduct'} component={AddProduct} />
                     <Route path={'/products'} component={ShowProducts} />
+                    {/*TODO: ADD ROUTING TO EDITPRODUCT*/}
                     {/*<AddProduct/>*/}
                     {/*<ShowProducts/>*/}
                     {/*</React.Fragment>*/}

@@ -26,6 +26,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import EditProduct from "./EditProduct";
+// import {NavLink} from "react-router-dom";
 
 const styles = theme => ({
     grow: {
@@ -136,9 +137,9 @@ const ProductRows = props => (
             <TableCell>{product.imageUrl}</TableCell>
             <TableCell>{product.description}</TableCell>
             <TableCell>
-                <IconButton onClick={props.handleEdit(product)} variant={'extendedFab'}><i className='material-icons'>
-                    edit
-                </i></IconButton>
+                <IconButton onClick={props.handleEdit(product)} variant={'extendedFab'} >
+                    <i className='material-icons'>edit</i>
+                </IconButton>
                 {/*<EditDialog SKU={product.SKU} category={product.category} name={product.name} handleEdit={props.handleEdit}/>*/}
                 {/*<IconButton onClick={handleDelete} variant={'extendedFab'}><i className='material-icons'>*/}
                 {/*delete*/}
@@ -239,11 +240,17 @@ class ShowProducts extends React.Component {
     getDataFromDb = categories => {
         const result = [];
         categories.forEach(category => {
-            db.collection(category).get().then(product => {
-                product.forEach(property => result.push(property.data()));
+            db.collection(category).get().then(products => {
+                products.forEach(product => result.push(product.data()));
+
+                // TODO: CZY TO W TYM MIEJSCU JEST OK? SORTUJE 5X (PO KAZDEJ KAT)
+                result.sort((a, b) => a.SKU - b.SKU);
+                // this.handleSort(Object.values(this.state.sort));
+
                 this.setState({
                     allProducts: result
                 });
+
             }).catch(error => console.log('Error getting data: ' + error));
         });
     };
@@ -292,7 +299,6 @@ class ShowProducts extends React.Component {
         });
 
         this.handleSort(type, category, direction);
-
     };
 
     handleSort = (type, column, direction) => {
@@ -301,13 +307,13 @@ class ShowProducts extends React.Component {
         if (type === 'numeric') {
 
             if (direction === 'desc') {
-                newAllProducts = newAllProducts.sort((a, b) => parseInt(b[column]) - parseInt(a[column]));
+                newAllProducts.sort((a, b) => parseInt(b[column]) - parseInt(a[column]));
             } else if (direction === 'asc') {
-                newAllProducts = newAllProducts.sort((a, b) => parseInt(a[column]) - parseInt(b[column]));
+                newAllProducts.sort((a, b) => parseInt(a[column]) - parseInt(b[column]));
             }
         } else if (type === 'alphabetic') {
             if (direction === 'desc') {
-                newAllProducts = newAllProducts.sort((a, b) => {
+                newAllProducts.sort((a, b) => {
                     if (a[column] > b[column]) {
                         return -1;
                     }
@@ -317,7 +323,7 @@ class ShowProducts extends React.Component {
                     return 0;
                 });
             } else if (direction === 'asc') {
-                newAllProducts = newAllProducts.sort((a, b) => {
+                newAllProducts.sort((a, b) => {
                     if (a[column] < b[column]) {
                         return -1;
                     }
@@ -375,7 +381,6 @@ class ShowProducts extends React.Component {
 
     componentDidMount() {
         this.getDataFromDb(['hoodie', 'jumper', 't-shirt', 'tank-top', 'windbreaker']);
-
     }
 }
 
