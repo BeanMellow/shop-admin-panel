@@ -116,12 +116,12 @@ const TableHeader = (props) => {
     return (
         <TableRow>
             {headings.map(heading => (
-                <TableCell padding={"none"} onClick={() => handleClick(heading.objectName)} key={heading.objectName} align={'center'}>
+                <TableCell padding={'none'} onClick={() => handleClick(heading.objectName)} key={heading.objectName} align={'center'}>
                     {heading.displayName}
                     {props.sort.category === heading.objectName && arrow}
                 </TableCell>
             ))}
-            <TableCell padding={"none"} align={'center'}>Action</TableCell>
+            <TableCell padding={'none'} align={'center'}>Action</TableCell>
         </TableRow>
     );
 };

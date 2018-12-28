@@ -18,11 +18,14 @@ import EditProduct from "./EditProduct";
 const theme = createMuiTheme({
     palette: {
         primary: {
-            main: '#9ccc65',
+            main: '#aed581'
         },
         secondary: {
-            main: '#cddc39',
+            main: '#388e3c'
         },
+        error: {
+            main: '#f6685e'
+        }
     },
     typography: {
         useNextVariants: true,

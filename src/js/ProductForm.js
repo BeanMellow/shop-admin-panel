@@ -7,6 +7,8 @@ import Grid from '@material-ui/core/Grid';
 import MenuItem from '@material-ui/core/MenuItem';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import Typography from '@material-ui/core/Typography';
+import CardContent from "@material-ui/core/CardContent/CardContent";
 
 const styles = theme => ({
     // root: {
@@ -39,11 +41,13 @@ const styles = theme => ({
     }
 });
 
-const categories = ['hoodie',
+const categories = [
+    'hoodie',
     't-shirt',
     'tank-top',
     'jumper',
-    'windbreaker'];
+    'windbreaker'
+];
 
 const currencies = [
     {
@@ -61,18 +65,35 @@ const currencies = [
     {
         value: 'JPY',
         label: '¥',
-    },
+    }
 ];
 
 class ProductForm extends React.Component {
     render() {
         const {classes} = this.props;
+
+        // SKU validation
+        let validateSKU;
+        if (this.props.isEdit) {
+            validateSKU = 'Edit mode - can\'t change SKU';
+        } else if (this.props.state.SKU.length < 5) {
+            validateSKU = 'SKU must contain at least 5 digits';
+        }
+
         return (
             <Grid container spacing={24} justify={'center'}>
                 <Paper className={classes.paper}>
-                    <form onSubmit={this.props.handleSubmit} className={classes.container} noValidate autoComplete='off'>
+                    <Typography variant="h5" component="h2" align={'center'} gutterBottom>
+                        {this.props.isEdit ? 'EDIT PRODUCT' : 'ADD PRODUCT'}
+                    </Typography>
+                    {/* I removed < noValidate > from form props */}
+                    <form onSubmit={this.props.handleSubmit} className={classes.container}
+                          autoComplete='off'>
                         <Grid item xs={12} sm={6} container justify={'center'} alignContent={'center'}>
                             <TextField
+                                error={this.props.state.name.length < 5}
+                                type={'text'}
+                                helperText={this.props.state.name.length < 5 && 'Name must contain at least 5 characters'}
                                 id='product-name'
                                 label='Product name'
                                 className={classes.textField}
@@ -85,6 +106,9 @@ class ProductForm extends React.Component {
 
                         <Grid item xs={12} sm={6} container justify={'center'} alignContent={'center'}>
                             <TextField
+                                error={this.props.state.price.length < 1}
+                                type={'number'}
+                                helperText={this.props.state.price.length < 1 && 'Price must contain at least 1 digit'}
                                 id='product-price'
                                 label='Product price'
                                 className={classes.textField}
@@ -137,7 +161,11 @@ class ProductForm extends React.Component {
 
                         <Grid item xs={12} sm={6} container justify={'center'} alignContent={'center'}>
                             <TextField
-                                helperText={this.props.isEdit && 'Edit mode - can\'t change SKU'}
+                                // moved this under render() -> more conditions
+                                // helperText={this.props.isEdit && 'Edit mode - can\'t change SKU'}
+                                error={this.props.state.SKU.length < 5}
+                                type={'number'}
+                                helperText={validateSKU}
                                 disabled={this.props.isEdit}
                                 id='product-sku'
                                 label='Product SKU'
@@ -151,6 +179,9 @@ class ProductForm extends React.Component {
 
                         <Grid item xs={12} sm={6} container justify={'center'} alignContent={'center'}>
                             <TextField
+                                error={this.props.state.imageUrl.length < 10}
+                                type={'url'}
+                                helperText={this.props.state.imageUrl.length < 10 && 'Image URL must contain at least 10 characters'}
                                 id='product-image-url'
                                 label='Product image URL'
                                 className={classes.textField}
@@ -163,6 +194,9 @@ class ProductForm extends React.Component {
 
                         <Grid item xs={12} container justify={'center'} alignContent={'center'}>
                             <TextField
+                                error={this.props.state.description.length < 15}
+                                type={'url'}
+                                helperText={this.props.state.description.length < 15 && 'Description must contain at least 15 characters'}
                                 id='product-description'
                                 multiline={true}
                                 rows={5}
@@ -178,7 +212,7 @@ class ProductForm extends React.Component {
 
                         <Grid item xs={12} container justify={'center'} alignContent={'center'}>
                             <Button
-                                color={'primary'}
+                                color={'secondary'}
                                 variant={'outlined'}
                                 className={classes.button}
                                 fullWidth={true}
