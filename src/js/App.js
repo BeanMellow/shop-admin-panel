@@ -22,10 +22,10 @@ const theme = createMuiTheme({
         },
         secondary: {
             main: '#388e3c'
-        },
-        error: {
-            main: '#f6685e'
         }
+        // error: {
+        //     main: '#f6685e'
+        // }
     },
     typography: {
         useNextVariants: true,
