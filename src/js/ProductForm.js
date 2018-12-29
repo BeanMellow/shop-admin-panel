@@ -23,13 +23,13 @@ const styles = theme => ({
     paper: {
         padding: theme.spacing.unit * 3,
         width: '90%',
-        minWidth: 500,
+        minWidth: 500
         // margin: '0 auto'
         // textAlign: 'center',
     },
     textField: {
         margin: theme.spacing.unit * 3,
-        width: '90%',
+        width: '90%'
     },
     textArea: {
         margin: theme.spacing.unit * 3,
@@ -69,6 +69,42 @@ const currencies = [
 ];
 
 class ProductForm extends React.Component {
+    state = {
+        errorObj: {}
+    };
+
+    validation = event => {
+        event.preventDefault();
+        const errorObj = {};
+
+        if (this.props.state.name.length < 5) {
+            errorObj.name = 'Name must contain at least 5 characters';
+        }
+        if (this.props.state.price.length < 1) {
+            errorObj.price = 'Price must contain at least 1 digit';
+        }
+        if (this.props.state.SKU.length < 5) {
+            errorObj.SKU = 'SKU must contain at least 5 digits';
+        }
+        if (this.props.state.imageUrl.length < 10) {
+            errorObj.imageUrl = 'Image URL must contain at least 10 characters';
+        }
+        if (this.props.state.description.length < 15) {
+            errorObj.description = 'Description must contain at least 15 characters';
+        }
+
+        if (Object.keys(errorObj).length > 0) {
+            this.setState({
+                errorObj
+            });
+        } else {
+            this.setState({
+                errorObj: {}
+            });
+            this.props.handleSubmit();
+        }
+    };
+
     render() {
         const {classes} = this.props;
 
@@ -77,7 +113,7 @@ class ProductForm extends React.Component {
         if (this.props.isEdit) {
             validateSKU = 'Edit mode - can\'t change SKU';
         } else if (this.props.state.SKU.length < 5) {
-            validateSKU = 'SKU must contain at least 5 digits';
+            validateSKU = this.state.errorObj.SKU;
         }
 
         return (
@@ -87,13 +123,16 @@ class ProductForm extends React.Component {
                         {this.props.isEdit ? 'EDIT PRODUCT' : 'ADD PRODUCT'}
                     </Typography>
                     {/* I removed < noValidate > from form props */}
-                    <form onSubmit={this.props.handleSubmit} className={classes.container}
+                    {/*onSubmit={this.props.handleSubmit}*/}
+                    <form onSubmit={this.validation} className={classes.container}
+                          noValidate
                           autoComplete='off'>
                         <Grid item xs={12} sm={6} container justify={'center'} alignContent={'center'}>
                             <TextField
-                                error={this.props.state.name.length < 5}
+                                error={this.props.state.name.length < 5 ? this.state.errorObj.hasOwnProperty('name') : false}
+                                helperText={this.props.state.name.length < 5 ? this.state.errorObj.name : null}
+                                // test
                                 type={'text'}
-                                helperText={this.props.state.name.length < 5 && 'Name must contain at least 5 characters'}
                                 id='product-name'
                                 label='Product name'
                                 className={classes.textField}
@@ -106,9 +145,9 @@ class ProductForm extends React.Component {
 
                         <Grid item xs={12} sm={6} container justify={'center'} alignContent={'center'}>
                             <TextField
-                                error={this.props.state.price.length < 1}
+                                error={this.props.state.price.length < 1 ? this.state.errorObj.hasOwnProperty('price') : false}
+                                helperText={this.props.state.price.length < 1 ? this.state.errorObj.price : null}
                                 type={'number'}
-                                helperText={this.props.state.price.length < 1 && 'Price must contain at least 1 digit'}
                                 id='product-price'
                                 label='Product price'
                                 className={classes.textField}
@@ -163,9 +202,9 @@ class ProductForm extends React.Component {
                             <TextField
                                 // moved this under render() -> more conditions
                                 // helperText={this.props.isEdit && 'Edit mode - can\'t change SKU'}
-                                error={this.props.state.SKU.length < 5}
-                                type={'number'}
+                                error={this.props.state.SKU.length < 5 ? this.state.errorObj.hasOwnProperty('SKU') : false}
                                 helperText={validateSKU}
+                                type={'number'}
                                 disabled={this.props.isEdit}
                                 id='product-sku'
                                 label='Product SKU'
@@ -179,9 +218,9 @@ class ProductForm extends React.Component {
 
                         <Grid item xs={12} sm={6} container justify={'center'} alignContent={'center'}>
                             <TextField
-                                error={this.props.state.imageUrl.length < 10}
+                                error={this.props.state.imageUrl.length < 10 ? this.state.errorObj.hasOwnProperty('imageUrl') : false}
+                                helperText={this.props.state.imageUrl.length < 10 ? this.state.errorObj.imageUrl : null}
                                 type={'url'}
-                                helperText={this.props.state.imageUrl.length < 10 && 'Image URL must contain at least 10 characters'}
                                 id='product-image-url'
                                 label='Product image URL'
                                 className={classes.textField}
@@ -194,9 +233,9 @@ class ProductForm extends React.Component {
 
                         <Grid item xs={12} container justify={'center'} alignContent={'center'}>
                             <TextField
-                                error={this.props.state.description.length < 15}
+                                error={this.props.state.description.length < 15 ? this.state.errorObj.hasOwnProperty('description') : false}
+                                helperText={this.props.state.description.length < 15 ? this.state.errorObj.description : null}
                                 type={'url'}
-                                helperText={this.props.state.description.length < 15 && 'Description must contain at least 15 characters'}
                                 id='product-description'
                                 multiline={true}
                                 rows={5}

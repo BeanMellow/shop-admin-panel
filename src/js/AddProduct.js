@@ -27,9 +27,9 @@ class AddProduct extends React.Component {
         });
     };
 
-    handleSubmit = event => {
-        event.preventDefault();
-        console.log(this.state);
+    handleSubmit = () => {
+        // (event)
+        // event.preventDefault();
         db.collection(this.state.category).doc(this.state.SKU).set({
             name: this.state.name,
             category: this.state.category,
