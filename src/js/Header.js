@@ -36,7 +36,7 @@ class Header extends React.Component {
 
     render() {
         const iconStyle = {
-            marginLeft: '15px'
+            marginRight: '10px'
         };
         const {classes} = this.props;
 
@@ -51,29 +51,28 @@ class Header extends React.Component {
                             ADMIN PANEL
                         </Typography>
                         <Button color={'inherit'} className={classes.menuButton} component={NavLink} to={'/'}>
-                            Main Page
                             <i className="material-icons"
                                style={iconStyle}
                             >
                                 home
                             </i>
+                            Main Page
                         </Button>
                         <Button color={'inherit'}
                                 className={classes.menuButton}
                                 component={NavLink}
                                 to={'addproduct'}>
-                            Add Product
                             <i className="material-icons"
                                style={iconStyle}
                             >
                                 add_circle
                             </i>
+                            Add Product
                         </Button>
                         <Button color={'inherit'}
                                 className={classes.menuButton}
                                 component={NavLink}
                                 to={'products'}>
-                            Products List
                             <i className="material-icons"
                                style={iconStyle}
                             >
@@ -82,18 +81,19 @@ class Header extends React.Component {
                                 view_list
                                 {/*format_list_bulleted*/}
                             </i>
+                            Products List
                         </Button>
                         <Button color={'inherit'}
                                 className={classes.menuButton}
-                                // component={NavLink}
-                                // to={'login'}
+                            // component={NavLink}
+                            // to={'login'}
                         >
-                            Login
                             <i className="material-icons"
                                style={iconStyle}
                             >
                                 account_circle
                             </i>
+                            Login
                         </Button>
                     </Toolbar>
                 </AppBar>

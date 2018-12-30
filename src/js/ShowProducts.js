@@ -161,7 +161,7 @@ const TableHeader = (props) => {
 };
 
 const ProductRows = props => (
-    props.allProducts.map(product => (
+    props.allProducts.slice(props.page * props.rowsPerPage, props.page * props.rowsPerPage + props.rowsPerPage).map(product => (
         <TableRow hover key={product.SKU}>
             <TableCell padding={'dense'} align={'left'}>{product.name}</TableCell>
             <TableCell padding={'dense'} align={'left'}>{product.category}</TableCell>
@@ -265,10 +265,14 @@ class ShowProducts extends React.Component {
         },
         edit: {
             isEdit: false
-        }
+        },
         // edit: false,
         // editSKU: '',
         // editCategory: ''
+
+        // pagination
+        page: 0,
+        rowsPerPage: 5
     };
     // dzisiaj - all in one
     getDataFromDb = categories => {
@@ -374,6 +378,15 @@ class ShowProducts extends React.Component {
         });
     };
 
+    // pagination
+    handleChangePage = (event, page) => {
+        this.setState({page});
+    };
+
+    handleChangeRowsPerPage = event => {
+        this.setState({rowsPerPage: event.target.value});
+    };
+
     render() {
         const {classes} = this.props;
 
@@ -385,7 +398,6 @@ class ShowProducts extends React.Component {
                 <React.Fragment>
                     <Paper className={classes.root}>
                         <div className={classes.tableWrapper}>
-                            {/*<Table>*/}
                             <Table className={classes.table}>
                                 <TableHead>
                                     <TableHeader sort={this.state.sort}
@@ -396,10 +408,29 @@ class ShowProducts extends React.Component {
                                     <ProductRows allProducts={this.state.allProducts}
                                                  handleEdit={this.handleEdit}
                                                  handleDelete={this.handleDelete}
+                                        // pagination
+                                                 page={this.state.page}
+                                                 rowsPerPage={this.state.rowsPerPage}
                                     />
                                 </TableBody>
                             </Table>
                         </div>
+                        {/* pagination */}
+                        <TablePagination
+                            rowsPerPageOptions={[5, 10, 25]}
+                            component="div"
+                            count={this.state.allProducts.length}
+                            rowsPerPage={this.state.rowsPerPage}
+                            page={this.state.page}
+                            // backIconButtonProps={{
+                            //     'aria-label': 'Previous Page',
+                            // }}
+                            // nextIconButtonProps={{
+                            //     'aria-label': 'Next Page',
+                            // }}
+                            onChangePage={this.handleChangePage}
+                            onChangeRowsPerPage={this.handleChangeRowsPerPage}
+                        />
                     </Paper>
                 </React.Fragment>
             );
