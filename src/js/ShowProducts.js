@@ -35,8 +35,9 @@ const styles = theme => ({
     root: {
         padding: theme.spacing.unit * 3,
         // minWidth: 1350,
-        minWidth: 1200,
-        width: '90%',
+        // minWidth: 1200,
+        minWidth: 500,
+        width: '95%',
         marginBottom: 50,
         marginLeft: 'auto',
         marginRight: 'auto'
@@ -45,6 +46,9 @@ const styles = theme => ({
         // marginLeft: 'auto',
         // marginRight: 'auto'
         // textAlign: 'center',
+    },
+    table: {
+        minWidth: 1200
     },
     tableWrapper: {
         overflowX: 'auto'
@@ -381,7 +385,8 @@ class ShowProducts extends React.Component {
                 <React.Fragment>
                     <Paper className={classes.root}>
                         <div className={classes.tableWrapper}>
-                            <Table>
+                            {/*<Table>*/}
+                            <Table className={classes.table}>
                                 <TableHead>
                                     <TableHeader sort={this.state.sort}
                                                  updateSortState={this.updateSortState}
