@@ -135,7 +135,7 @@ const TableHeader = (props) => {
             {headings.map(heading => (
                     <TableCell
                         key={heading.objectName}
-                        align={'center'}
+                        align={'left'}
                         padding={'dense'}
                     >
                         <Tooltip
@@ -170,7 +170,7 @@ const ProductRows = props => (
             <TableCell padding={'dense'} align={'left'}>{product.SKU}</TableCell>
             <TableCell padding={'dense'} align={'left'}>{product.imageUrl}</TableCell>
             <TableCell padding={'dense'} align={'left'}>{product.description}</TableCell>
-            <TableCell padding={'dense'} align={'left'}>
+            <TableCell padding={'dense'} align={'center'}>
                 <IconButton onClick={props.handleEdit(product)} variant={'extendedFab'}>
                     <i className='material-icons'>edit</i>
                 </IconButton>
