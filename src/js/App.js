@@ -12,7 +12,7 @@ import AddProduct from "./AddProduct";
 import ShowProducts from "./ShowProducts";
 import Main from './Main';
 import EditProduct from "./EditProduct";
-// import LoginDialog from './LoginDialog';
+import LoginDialog from './LoginDialog';
 
 
 const theme = createMuiTheme({
@@ -33,32 +33,38 @@ const theme = createMuiTheme({
 });
 
 class App extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            isLogged: false
-        }
-    }
+    state = {
+        showLoginDialog: false
+    };
 
+    toggleDialog = onOff => () => {
+      this.setState({showLoginDialog: onOff});
+    };
+
+    setUsername = username => {
+        this.setState({
+            username,
+            showLoginDialog: false
+        });
+    };
 
     render() {
-        // let result;
-        // if (this.state.isLogged) {
-        //     result = <Header />;
-        // } else {
-        //     result = (null);
-        // }
 
         return (
             <HashRouter>
                 <MuiThemeProvider theme={theme}>
                     {/*<React.Fragment>*/}
                     <CssBaseline/>
-                    <Header/>
-                    <Route exact path={'/'} component={Main} />
+                    <Header toggleDialog={this.toggleDialog}
+                            username={this.state.username} />
+                    <LoginDialog toggleDialog={this.toggleDialog}
+                                 setUsername={this.setUsername}
+                                 currentUsername={this.state.username}
+                                 showLoginDialog={this.state.showLoginDialog} />
+                    <Route exact path={'/'} component={Main}/>
                     {/*<Route exact path={'/login'} component={LoginDialog} />*/}
-                    <Route path={'/addproduct'} component={AddProduct} />
-                    <Route path={'/products'} component={ShowProducts} />
+                    <Route path={'/addproduct'} component={AddProduct}/>
+                    <Route path={'/products'} component={ShowProducts}/>
                     {/*TODO: ADD ROUTING TO EDITPRODUCT*/}
                     {/*<AddProduct/>*/}
                     {/*<ShowProducts/>*/}
@@ -66,6 +72,12 @@ class App extends React.Component {
                 </MuiThemeProvider>
             </HashRouter>
         );
+    }
+
+    componentDidMount = () => {
+        if (!this.state.username) {
+            this.setState({showLoginDialog: true});
+        }
     }
 }
 

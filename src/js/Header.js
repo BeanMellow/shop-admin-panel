@@ -85,6 +85,7 @@ class Header extends React.Component {
                         </Button>
                         <Button color={'inherit'}
                                 className={classes.menuButton}
+                                onClick={this.props.toggleDialog(true)}
                             // component={NavLink}
                             // to={'login'}
                         >
@@ -93,7 +94,8 @@ class Header extends React.Component {
                             >
                                 account_circle
                             </i>
-                            Login
+                            {/*Login*/}
+                            {this.props.username ? this.props.username : 'Login'}
                         </Button>
                     </Toolbar>
                 </AppBar>
