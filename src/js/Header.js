@@ -77,7 +77,10 @@ class Header extends React.Component {
                             <i className="material-icons"
                                style={iconStyle}
                             >
-                                queue
+                                {/*list_alt*/}
+                                {/*list*/}
+                                view_list
+                                {/*format_list_bulleted*/}
                             </i>
                         </Button>
                         <Button color={'inherit'}
