@@ -34,8 +34,8 @@ const styles = theme => ({
     },
     root: {
         padding: theme.spacing.unit * 3,
-        // minWidth: 1550,
-        minWidth: 1350,
+        // minWidth: 1350,
+        minWidth: 1200,
         width: '90%',
         marginBottom: 50,
         marginLeft: 'auto',
@@ -116,27 +116,27 @@ const TableHeader = (props) => {
     return (
         <TableRow>
             {headings.map(heading => (
-                <TableCell padding={'none'} onClick={() => handleClick(heading.objectName)} key={heading.objectName} align={'center'}>
+                <TableCell padding={'dense'} onClick={() => handleClick(heading.objectName)} key={heading.objectName} align={'center'}>
                     {heading.displayName}
                     {props.sort.category === heading.objectName && arrow}
                 </TableCell>
             ))}
-            <TableCell padding={'none'} align={'center'}>Action</TableCell>
+            <TableCell padding={'dense'} align={'center'}>Action</TableCell>
         </TableRow>
     );
 };
 
 const ProductRows = props => (
     props.allProducts.map(product => (
-        <TableRow key={product.SKU}>
-            <TableCell>{product.name}</TableCell>
-            <TableCell>{product.category}</TableCell>
-            <TableCell>{product.price}</TableCell>
-            <TableCell>{product.currency}</TableCell>
-            <TableCell>{product.SKU}</TableCell>
-            <TableCell>{product.imageUrl}</TableCell>
-            <TableCell>{product.description}</TableCell>
-            <TableCell>
+        <TableRow hover key={product.SKU}>
+            <TableCell padding={'dense'} align={'left'} >{product.name}</TableCell>
+            <TableCell padding={'dense'} align={'left'} >{product.category}</TableCell>
+            <TableCell padding={'dense'} align={'left'} >{product.price}</TableCell>
+            <TableCell padding={'dense'} align={'left'} >{product.currency}</TableCell>
+            <TableCell padding={'dense'} align={'left'} >{product.SKU}</TableCell>
+            <TableCell padding={'dense'} align={'left'} >{product.imageUrl}</TableCell>
+            <TableCell padding={'dense'} align={'left'} >{product.description}</TableCell>
+            <TableCell padding={'dense'} align={'left'} >
                 <IconButton onClick={props.handleEdit(product)} variant={'extendedFab'} >
                     <i className='material-icons'>edit</i>
                 </IconButton>
