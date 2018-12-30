@@ -14,16 +14,17 @@ const styles = theme => ({
     // root: {
     //     flexGrow: 1
     // },
+    grid: {
+      minWidth: 500
+    },
     container: {
         display: 'flex',
         flexWrap: 'wrap',
-        margin: '0 auto'
-
+        margin: '0 auto',
     },
     paper: {
         padding: theme.spacing.unit * 3,
-        width: '90%',
-        minWidth: 500
+        width: '90%'
         // margin: '0 auto'
         // textAlign: 'center',
     },
@@ -117,7 +118,7 @@ class ProductForm extends React.Component {
         }
 
         return (
-            <Grid container spacing={24} justify={'center'}>
+            <Grid container spacing={24} justify={'center'} className={classes.grid}>
                 <Paper className={classes.paper}>
                     <Typography variant="h5" component="h2" align={'center'} gutterBottom>
                         {this.props.isEdit ? 'EDIT PRODUCT' : 'ADD PRODUCT'}

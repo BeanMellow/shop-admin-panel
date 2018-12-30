@@ -34,6 +34,7 @@ const ExchangeRate = props => {
 const styles = theme => ({
     root: {
         maxWidth: 1400,
+        minWidth: 500,
         margin: '0 auto'
     },
     card: {
