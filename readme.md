@@ -1,5 +1,6 @@
 # Shop admin panel
-### My first project in React
+### My first project in React. Preview:
+https://beanmellow.github.io/shop-admin-panel/
 
 ### Features:
 * Material UI Framework
