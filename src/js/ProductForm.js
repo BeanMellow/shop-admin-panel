@@ -76,22 +76,26 @@ class ProductForm extends React.Component {
 
     validation = event => {
         event.preventDefault();
+        const product = this.props.state;
         const errorObj = {};
 
-        if (this.props.state.name.length < 5) {
-            errorObj.name = 'Name must contain at least 5 characters';
+        if (product.name.length < 5 || product.name.length > 20) {
+            errorObj.name = 'Name must contain between 5 and 20 characters';
         }
-        if (this.props.state.price.length < 1) {
-            errorObj.price = 'Price must contain at least 1 digit';
+        if (product.price.length < 1 || product.price.length > 7) {
+            errorObj.price = 'Price must contain between 1 and 7 signs';
         }
-        if (this.props.state.SKU.length < 5) {
-            errorObj.SKU = 'SKU must contain at least 5 digits';
+        if (product.SKU.length < 5 || product.SKU.length > 10) {
+            errorObj.SKU = 'SKU must contain between 5 and 10 digits';
         }
-        if (this.props.state.imageUrl.length < 10) {
-            errorObj.imageUrl = 'Image URL must contain at least 10 characters';
+        // if (product.imageUrl.length < 10) {
+        //     errorObj.imageUrl = 'Image URL must contain at least 10 characters';
+        // }
+        if (product.quantity.length < 1 || product.quantity.length > 3) {
+            errorObj.quantity = 'Quantity must contain between 1 and 3 digits';
         }
-        if (this.props.state.description.length < 15) {
-            errorObj.description = 'Description must contain at least 15 characters';
+        if (product.description.length < 15 || product.description.length > 400) {
+            errorObj.description = 'Description must contain between 15 and 400 characters';
         }
 
         if (Object.keys(errorObj).length > 0) {
@@ -108,13 +112,15 @@ class ProductForm extends React.Component {
 
     render() {
         const {classes} = this.props;
+        const product = this.props.state;
+        const error = this.state.errorObj;
 
         // SKU validation
         let validateSKU;
         if (this.props.isEdit) {
             validateSKU = 'Edit mode - can\'t change SKU';
-        } else if (this.props.state.SKU.length < 5) {
-            validateSKU = this.state.errorObj.SKU;
+        } else if (product.SKU.length < 5 || product.SKU.length > 10) {
+            validateSKU = error.SKU;
         }
 
         return (
@@ -130,14 +136,13 @@ class ProductForm extends React.Component {
                           autoComplete='off'>
                         <Grid item xs={12} sm={6} container justify={'center'} alignContent={'center'}>
                             <TextField
-                                error={this.props.state.name.length < 5 ? this.state.errorObj.hasOwnProperty('name') : false}
-                                helperText={this.props.state.name.length < 5 ? this.state.errorObj.name : null}
-                                // test
+                                error={product.name.length < 5 || product.name.length > 20  ? error.hasOwnProperty('name') : false}
+                                helperText={product.name.length < 5 || product.name.length > 20 ? error.name : null}
                                 type={'text'}
                                 id='product-name'
                                 label='Product name'
                                 className={classes.textField}
-                                value={this.props.state.name}
+                                value={product.name}
                                 onChange={this.props.handleChange('name')}
                                 margin='dense'
                                 variant={'outlined'}
@@ -146,13 +151,13 @@ class ProductForm extends React.Component {
 
                         <Grid item xs={12} sm={6} container justify={'center'} alignContent={'center'}>
                             <TextField
-                                error={this.props.state.price.length < 1 ? this.state.errorObj.hasOwnProperty('price') : false}
-                                helperText={this.props.state.price.length < 1 ? this.state.errorObj.price : null}
+                                error={product.price.length < 1 || product.price.length > 7 ? error.hasOwnProperty('price') : false}
+                                helperText={product.price.length < 1 || product.price.length > 7 ? error.price : null}
                                 type={'number'}
                                 id='product-price'
                                 label='Product price'
                                 className={classes.textField}
-                                value={this.props.state.price}
+                                value={product.price}
                                 onChange={this.props.handleChange('price')}
                                 margin='dense'
                                 variant={'outlined'}
@@ -165,7 +170,7 @@ class ProductForm extends React.Component {
                                 select
                                 label='Select'
                                 className={classes.textField}
-                                value={this.props.state.currency}
+                                value={product.currency}
                                 onChange={this.props.handleChange('currency')}
                                 helperText='Please select your currency'
                                 margin='dense'
@@ -185,7 +190,7 @@ class ProductForm extends React.Component {
                                 select
                                 label='Select'
                                 className={classes.textField}
-                                value={this.props.state.category}
+                                value={product.category}
                                 onChange={this.props.handleChange('category')}
                                 // helperText='Please select product category'
                                 helperText={this.props.isEdit ? 'Edit mode - can\'t change category' : 'Please select product category'}
@@ -203,30 +208,45 @@ class ProductForm extends React.Component {
                             <TextField
                                 // moved this under render() -> more conditions
                                 // helperText={this.props.isEdit && 'Edit mode - can\'t change SKU'}
-                                error={this.props.state.SKU.length < 5 ? this.state.errorObj.hasOwnProperty('SKU') : false}
+                                error={product.SKU.length < 5 || product.SKU.length > 10 ? error.hasOwnProperty('SKU') : false}
                                 helperText={validateSKU}
                                 type={'number'}
                                 disabled={this.props.isEdit}
                                 id='product-sku'
                                 label='Product SKU'
                                 className={classes.textField}
-                                value={this.props.state.SKU}
+                                value={product.SKU}
                                 onChange={this.props.handleChange('SKU')}
                                 margin='dense'
                                 variant={'outlined'}
                             />
                         </Grid>
 
+                        {/*<Grid item xs={12} sm={6} container justify={'center'} alignContent={'center'}>*/}
+                            {/*<TextField*/}
+                                {/*error={product.imageUrl.length < 10 ? error.hasOwnProperty('imageUrl') : false}*/}
+                                {/*helperText={product.imageUrl.length < 10 ? error.imageUrl : null}*/}
+                                {/*type={'url'}*/}
+                                {/*id='product-image-url'*/}
+                                {/*label='Product image URL'*/}
+                                {/*className={classes.textField}*/}
+                                {/*value={product.imageUrl}*/}
+                                {/*onChange={this.props.handleChange('imageUrl')}*/}
+                                {/*margin='dense'*/}
+                                {/*variant={'outlined'}*/}
+                            {/*/>*/}
+                        {/*</Grid>*/}
+
                         <Grid item xs={12} sm={6} container justify={'center'} alignContent={'center'}>
                             <TextField
-                                error={this.props.state.imageUrl.length < 10 ? this.state.errorObj.hasOwnProperty('imageUrl') : false}
-                                helperText={this.props.state.imageUrl.length < 10 ? this.state.errorObj.imageUrl : null}
-                                type={'url'}
-                                id='product-image-url'
-                                label='Product image URL'
+                                error={product.quantity.length < 1 || product.quantity.length > 3 ? error.hasOwnProperty('quantity') : false}
+                                helperText={product.quantity.length < 1 || product.quantity.length > 3 ? error.quantity : null}
+                                type={'number'}
+                                id='product-quantity'
+                                label='Product quantity'
                                 className={classes.textField}
-                                value={this.props.state.imageUrl}
-                                onChange={this.props.handleChange('imageUrl')}
+                                value={product.quantity}
+                                onChange={this.props.handleChange('quantity')}
                                 margin='dense'
                                 variant={'outlined'}
                             />
@@ -234,8 +254,8 @@ class ProductForm extends React.Component {
 
                         <Grid item xs={12} container justify={'center'} alignContent={'center'}>
                             <TextField
-                                error={this.props.state.description.length < 15 ? this.state.errorObj.hasOwnProperty('description') : false}
-                                helperText={this.props.state.description.length < 15 ? this.state.errorObj.description : null}
+                                error={product.description.length < 15 || product.description.length > 400 ? error.hasOwnProperty('description') : false}
+                                helperText={product.description.length < 15 || product.description.length > 400 ? error.description : null}
                                 type={'url'}
                                 id='product-description'
                                 multiline={true}
@@ -243,7 +263,7 @@ class ProductForm extends React.Component {
                                 rowsMax={10}
                                 label='Product description'
                                 className={classes.textArea}
-                                value={this.props.state.description}
+                                value={product.description}
                                 onChange={this.props.handleChange('description')}
                                 margin='dense'
                                 variant={'outlined'}

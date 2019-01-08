@@ -17,7 +17,8 @@ class AddProduct extends React.Component {
         price: '',
         currency: 'EUR',
         SKU: '',
-        imageUrl: '',
+        // imageUrl: '',
+        quantity: '',
         description: ''
     };
 
@@ -36,7 +37,8 @@ class AddProduct extends React.Component {
             price: this.state.price,
             currency: this.state.currency,
             SKU: this.state.SKU,
-            imageUrl: this.state.imageUrl,
+            // imageUrl: this.state.imageUrl,
+            quantity: this.state.quantity,
             description: this.state.description
         }).then(() => {
             console.log('Product successfully added to database');
@@ -46,7 +48,8 @@ class AddProduct extends React.Component {
                 price: '',
                 currency: 'EUR',
                 SKU: '',
-                imageUrl: '',
+                // imageUrl: '',
+                quantity: '',
                 description: ''
             });
         })

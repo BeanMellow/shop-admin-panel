@@ -84,9 +84,13 @@ const TableHeader = (props) => {
             displayName: 'SKU',
             objectName: 'SKU'
         },
+        // {
+        //     displayName: 'Image URL',
+        //     objectName: 'imageUrl'
+        // },
         {
-            displayName: 'Image URL',
-            objectName: 'imageUrl'
+            displayName: 'Quantity',
+            objectName: 'quantity'
         },
         {
             displayName: 'Description',
@@ -98,38 +102,25 @@ const TableHeader = (props) => {
         // }
     ];
 
-    // let arrow;
-    // if (props.sort.direction === 'desc') {
-    //     arrow = <i className="material-icons">arrow_downward</i>;
-    // } else if (props.sort.direction === 'asc') {
-    //     arrow = <i className="material-icons">arrow_upward</i>;
-    // }
-    //
-    const handleClick = heading => {
+    const handleClick = heading => () => {
         const newSortState = [];
-        if (heading === 'price' || heading === 'SKU') {
+        const numeric = ['price', 'SKU', 'quantity'];
+        if (numeric.includes(heading)) {
             newSortState.push('numeric');
         } else {
             newSortState.push('alphabetic');
         }
         newSortState.push(heading);
-        props.sort.direction === 'desc' ? newSortState.push('asc') : newSortState.push('desc');
+        // props.sort.direction === 'desc' ? newSortState.push('asc') : newSortState.push('desc');
+        // better version - default desc when clicking on new column
+        if (props.sort.category === heading) {
+            props.sort.direction === 'desc' ? newSortState.push('asc') : newSortState.push('desc');
+        } else {
+            newSortState.push('desc');
+        }
         props.updateSortState(...newSortState);
     };
-    //
-    // return (
-    //     <TableRow>
-    //         {headings.map(heading => (
-    //             <TableCell padding={'dense'} onClick={() => handleClick(heading.objectName)} key={heading.objectName} align={'center'}>
-    //                 {heading.displayName}
-    //                 {props.sort.category === heading.objectName && arrow}
-    //             </TableCell>
-    //         ))}
-    //         <TableCell padding={'dense'} align={'center'}>Action</TableCell>
-    //     </TableRow>
-    // );
 
-    // ^ prettier version below
     return (
         <TableRow>
             {headings.map(heading => (
@@ -140,14 +131,14 @@ const TableHeader = (props) => {
                     >
                         <Tooltip
                             title="Sort"
-                            // placement={row.numeric ? 'bottom-end' : 'bottom-start'}
+                            // placement={props.sort.type === 'numeric' ? 'bottom-end' : 'bottom-start'}
                             placement={'bottom-start'}
                             enterDelay={300}
                         >
                             <TableSortLabel
                                 active={props.sort.category === heading.objectName}
                                 direction={props.sort.direction}
-                                onClick={() => handleClick(heading.objectName)}
+                                onClick={handleClick(heading.objectName)}
                             >
                                 {heading.displayName}
                             </TableSortLabel>
@@ -168,7 +159,8 @@ const ProductRows = props => (
             <TableCell padding={'dense'} align={'left'}>{product.price}</TableCell>
             <TableCell padding={'dense'} align={'left'}>{product.currency}</TableCell>
             <TableCell padding={'dense'} align={'left'}>{product.SKU}</TableCell>
-            <TableCell padding={'dense'} align={'left'}>{product.imageUrl}</TableCell>
+            {/*<TableCell padding={'dense'} align={'left'}>{product.imageUrl}</TableCell>*/}
+            <TableCell padding={'dense'} align={'left'}>{product.quantity}</TableCell>
             <TableCell padding={'dense'} align={'left'}>{product.description}</TableCell>
             <TableCell padding={'dense'} align={'center'}>
                 <IconButton onClick={props.handleEdit(product)} variant={'extendedFab'}>
@@ -193,7 +185,8 @@ const ProductRows = props => (
 //             <TableCell>{product.price}</TableCell>
 //             <TableCell>{product.currency}</TableCell>
 //             <TableCell>{product.SKU}</TableCell>
-//             <TableCell>{product.imageUrl}</TableCell>
+//             {/*<TableCell>{product.imageUrl}</TableCell>*/}
+//             <TableCell>{product.quantity}</TableCell>
 //             <TableCell>{product.description}</TableCell>
 //             <TableCell>
 //                 <IconButton onClick={props.handleEdit} variant={'extendedFab'}><i className='material-icons'>
@@ -232,8 +225,6 @@ class DeleteDialog extends React.Component {
                 <Dialog
                     open={this.state.open}
                     onClose={this.handleClose}
-                    // aria-labelledby='alert-dialog-title'
-                    // aria-describedby='alert-dialog-description'
                 >
                     <DialogTitle id='delete-dialog-title'>Delete {this.props.name}</DialogTitle>
                     <DialogContent>
@@ -261,28 +252,26 @@ class ShowProducts extends React.Component {
         sort: {
             type: 'numeric',
             category: 'SKU',
-            direction: 'asc'
+            direction: 'desc'
         },
         edit: {
             isEdit: false
         },
-        // edit: false,
-        // editSKU: '',
-        // editCategory: ''
 
         // pagination
         page: 0,
         rowsPerPage: 5
     };
-    // dzisiaj - all in one
+
     getDataFromDb = categories => {
         const result = [];
         categories.forEach(category => {
             db.collection(category).get().then(products => {
                 products.forEach(product => result.push(product.data()));
 
-                // TODO: CZY TO W TYM MIEJSCU JEST OK? SORTUJE 5X (PO KAZDEJ KAT)
-                result.sort((a, b) => a.SKU - b.SKU);
+                // TODO: is this the best place to sort? sorting 5X (after every cat)
+                // default sort = descending by SKU
+                result.sort((a, b) => b.SKU - a.SKU);
                 // this.handleSort(Object.values(this.state.sort));
 
                 this.setState({
@@ -294,7 +283,6 @@ class ShowProducts extends React.Component {
     };
 
     handleEdit = product => () => {
-        // TODO: add handle sort before set state (without changing state during sort)
         this.setState({
             edit: {
                 isEdit: true,
@@ -308,8 +296,18 @@ class ShowProducts extends React.Component {
         let newAllProducts = [...this.state.allProducts];
         const index = newAllProducts.map(e => e.SKU).indexOf(updatedProduct.SKU);
         newAllProducts.splice(index, 1, updatedProduct);
+        //TODO: works fine, but mb tweak in the future - take into account sort state before update?
+        // back to default sort after updating
+        newAllProducts.sort((a, b) => b.SKU - a.SKU);
         this.setState({
             allProducts: newAllProducts,
+            //TODO: works fine, but mb tweak in the future - take into account sort state before update?
+            // back to default sort after updating
+            sort: {
+                type: 'numeric',
+                category: 'SKU',
+                direction: 'desc'
+            },
             edit: {
                 isEdit: false
             }
@@ -422,12 +420,6 @@ class ShowProducts extends React.Component {
                             count={this.state.allProducts.length}
                             rowsPerPage={this.state.rowsPerPage}
                             page={this.state.page}
-                            // backIconButtonProps={{
-                            //     'aria-label': 'Previous Page',
-                            // }}
-                            // nextIconButtonProps={{
-                            //     'aria-label': 'Next Page',
-                            // }}
                             onChangePage={this.handleChangePage}
                             onChangeRowsPerPage={this.handleChangeRowsPerPage}
                         />

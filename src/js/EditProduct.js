@@ -17,7 +17,8 @@ class EditProduct extends React.Component {
         price: this.props.product.price,
         currency: this.props.product.currency,
         SKU: this.props.product.SKU,
-        imageUrl: this.props.product.imageUrl,
+        // imageUrl: this.props.product.imageUrl,
+        quantity: this.props.product.quantity,
         description: this.props.product.description
     };
 
@@ -36,7 +37,8 @@ class EditProduct extends React.Component {
             price: this.state.price,
             currency: this.state.currency,
             SKU: this.state.SKU,
-            imageUrl: this.state.imageUrl,
+            // imageUrl: this.state.imageUrl,
+            quantity: this.state.quantity,
             description: this.state.description
         }).then(() => {
             // TODO: ten set state ponizej mi tu chyba niepotrzebny, tylo submit
@@ -48,13 +50,13 @@ class EditProduct extends React.Component {
             //     price: '',
             //     currency: 'EUR',
             //     SKU: '',
-            //     imageUrl: '',
+            //     // imageUrl: '',
+            //     quantity: '',
             //     description: ''
             // }, () => {
             //     this.props.finishEdit();
             // });
-        })
-            .catch(error => console.log('Error writing document: ', error));
+        }).catch(error => console.log('Error writing document: ', error));
     };
 
     render() {
