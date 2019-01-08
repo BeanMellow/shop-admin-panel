@@ -9,15 +9,15 @@ import TableHead from '@material-ui/core/TableHead';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 import TableSortLabel from '@material-ui/core/TableSortLabel';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
+// import Toolbar from '@material-ui/core/Toolbar';
+// import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
-import Checkbox from '@material-ui/core/Checkbox';
+// import Checkbox from '@material-ui/core/Checkbox';
 import IconButton from '@material-ui/core/IconButton';
 import Tooltip from '@material-ui/core/Tooltip';
-import DeleteIcon from '@material-ui/icons/Delete';
-import FilterListIcon from '@material-ui/icons/FilterList';
-import {lighten} from '@material-ui/core/styles/colorManipulator';
+// import DeleteIcon from '@material-ui/icons/Delete';
+// import FilterListIcon from '@material-ui/icons/FilterList';
+// import {lighten} from '@material-ui/core/styles/colorManipulator';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
@@ -34,18 +34,11 @@ const styles = theme => ({
     },
     root: {
         padding: theme.spacing.unit * 3,
-        // minWidth: 1350,
-        // minWidth: 1200,
         minWidth: 500,
         width: '95%',
         marginBottom: 50,
         marginLeft: 'auto',
         marginRight: 'auto'
-        // margin: `${theme.spacing.unit *3} auto`,
-        // marginTop: theme.spacing.unit * 4,
-        // marginLeft: 'auto',
-        // marginRight: 'auto'
-        // textAlign: 'center',
     },
     table: {
         minWidth: 1200
@@ -397,6 +390,17 @@ class ShowProducts extends React.Component {
                     <Paper className={classes.root}>
                         <div className={classes.tableWrapper}>
                             <Table className={classes.table}>
+                                {/*test colgroup*/}
+                                <colgroup>
+                                    <col style={{width: '14%'}}/>
+                                    <col style={{width: '12%'}}/>
+                                    <col style={{width: '5%'}}/>
+                                    <col style={{width: '5%'}}/>
+                                    <col style={{width: '6%'}}/>
+                                    <col style={{width: '5%'}}/>
+                                    <col style={{width: '50%'}}/>
+                                    <col style={{width: '3%'}}/>
+                                </colgroup>
                                 <TableHead>
                                     <TableHeader sort={this.state.sort}
                                                  updateSortState={this.updateSortState}

@@ -10,8 +10,6 @@ import {withStyles} from "@material-ui/core";
 
 const styles = theme => ({
     dialog: {
-        // marginLeft: theme.spacing.unit * 2,
-        // marginRight: theme.spacing.unit * 2,
         width: 400
     }
 });
@@ -91,7 +89,6 @@ class LoginDialog extends React.Component {
     }
 
     componentDidUpdate(prevProps) {
-        // Typical usage (don't forget to compare props):
         if (this.props.showLoginDialog !== prevProps.showLoginDialog) {
             const newStatus = this.props.showLoginDialog;
             this.setState({

@@ -1,5 +1,5 @@
 import React from 'react';
-import firebase, {db} from "./firebase";
+// import firebase, {db} from "./firebase";
 // import classNames from 'classnames';
 import {withStyles} from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
@@ -8,7 +8,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-import CardContent from "@material-ui/core/CardContent/CardContent";
+// import CardContent from "@material-ui/core/CardContent/CardContent";
 
 const styles = theme => ({
     // root: {
@@ -53,19 +53,23 @@ const categories = [
 const currencies = [
     {
         value: 'USD',
-        label: '$',
+        label: '$'
     },
     {
         value: 'EUR',
-        label: '€',
+        label: '€'
+    },
+    {
+        value: 'PLN',
+        label: 'zł'
     },
     {
         value: 'BTC',
-        label: '฿',
+        label: '฿'
     },
     {
         value: 'JPY',
-        label: '¥',
+        label: '¥'
     }
 ];
 

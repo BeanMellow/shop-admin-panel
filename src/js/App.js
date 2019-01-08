@@ -2,16 +2,16 @@ import React from 'react';
 import {
     HashRouter,
     Route,
-    NavLink
+    // NavLink
 } from 'react-router-dom';
-import firebase, {db} from "./firebase";
+// import firebase, {db} from "./firebase";
 import {MuiThemeProvider, createMuiTheme} from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Header from './Header';
 import AddProduct from "./AddProduct";
 import ShowProducts from "./ShowProducts";
 import Main from './Main';
-import EditProduct from "./EditProduct";
+// import EditProduct from "./EditProduct";
 import LoginDialog from './LoginDialog';
 
 

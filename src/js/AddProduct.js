@@ -2,12 +2,12 @@ import React from 'react';
 import firebase, {db} from "./firebase";
 import ProductForm from './ProductForm';
 // import classNames from 'classnames';
-import {withStyles} from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
-import Grid from '@material-ui/core/Grid';
-import MenuItem from '@material-ui/core/MenuItem';
-import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
+// import {withStyles} from '@material-ui/core/styles';
+// import Paper from '@material-ui/core/Paper';
+// import Grid from '@material-ui/core/Grid';
+// import MenuItem from '@material-ui/core/MenuItem';
+// import TextField from '@material-ui/core/TextField';
+// import Button from '@material-ui/core/Button';
 
 
 class AddProduct extends React.Component {

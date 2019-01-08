@@ -1,15 +1,14 @@
 import React from 'react';
 import {withStyles} from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
+// import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
-import Button from '@material-ui/core/Button';
+// import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
 const ExchangeRate = props => {
-    // TODO: should this be separate component? or put it back to CurrencyWidget?
     let result;
     if (props.values.length > 0) {
         result = (
@@ -26,7 +25,11 @@ const ExchangeRate = props => {
             </CardContent>
         );
     } else {
-        result = <CircularProgress/>;
+        result = (
+            <div className={props.loader}>
+                <CircularProgress/>
+            </div>
+        );
     }
     return result;
 };
@@ -58,6 +61,12 @@ const styles = theme => ({
     pos: {
         marginBottom: 12,
     },
+    loader: {
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: '100px'
+    }
 });
 
 class CurrencyWidget extends React.Component {
@@ -129,7 +138,12 @@ class CurrencyWidget extends React.Component {
                 {this.state.currencies.map((currency, i) => (
                     <Grid item xs={12} sm={6} md={4} lg={3} container key={i}>
                         <Card className={classes.card}>
-                            <ExchangeRate currency={currency} values={this.state.values} i={i} title={classes.title}/>
+                            <ExchangeRate currency={currency}
+                                          values={this.state.values}
+                                          i={i}
+                                          title={classes.title}
+                                          loader={classes.loader}
+                            />
                         </Card>
                     </Grid>
                 ))}
@@ -138,36 +152,6 @@ class CurrencyWidget extends React.Component {
     }
 
     componentDidMount() {
-        // const latestRates = 'http://data.fixer.io/api/latest?access_key=1c14981dc32f0556533851fd411f76c4&format=1';
-        // const ratesFromApi = [];
-        // fetch(latestRates).then(r => r.json()).then(data => console.log(data.rates));
-        // fetch(latestRates).then(r => r.json()).then(data => {
-        //     ratesFromApi.push(data.rates.PLN, data.rates.GBP, data.rates.USD, data.rates.CHF);
-        //     this.setState({
-        //         currencies: [
-        //             {
-        //                 name: 'PLN',
-        //                 value: ratesFromApi[0],
-        //                 symbol: 'PLN'
-        //             },
-        //             {
-        //                 name: 'GBP',
-        //                 value: ratesFromApi[1],
-        //                 symbol: '£'
-        //             },
-        //             {
-        //                 name: 'USD',
-        //                 value: ratesFromApi[2],
-        //                 symbol: '$'
-        //             },
-        //             {
-        //                 name: 'CHF',
-        //                 value: ratesFromApi[3],
-        //                 symbol: 'CHF'
-        //             }
-        //         ]
-        //     });
-        // });
 
         const latestRates = 'http://data.fixer.io/api/latest?access_key=1c14981dc32f0556533851fd411f76c4&format=1';
         const ratesFromApi = [];
