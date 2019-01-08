@@ -153,9 +153,11 @@ class CurrencyWidget extends React.Component {
 
     componentDidMount() {
 
-        const latestRates = 'http://data.fixer.io/api/latest?access_key=1c14981dc32f0556533851fd411f76c4&format=1';
+        // const latestRates = 'http://data.fixer.io/api/latest?access_key=1c14981dc32f0556533851fd411f76c4&format=1';
+        // using this to enable http API on git pages (mixed content solved)
+        const latestRates = 'https://cors-anywhere.herokuapp.com/http://data.fixer.io/api/latest?access_key=1c14981dc32f0556533851fd411f76c4&format=1';
         const ratesFromApi = [];
-        fetch(latestRates).then(r => r.json()).then(data => console.log(data.rates));
+        // fetch(latestRates).then(r => r.json()).then(data => console.log(data.rates));
         fetch(latestRates).then(r => r.json()).then(data => {
             ratesFromApi.push(
                 data.rates.PLN, data.rates.GBP, data.rates.USD,

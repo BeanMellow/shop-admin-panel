@@ -1,14 +1,17 @@
 {
-  "name": "webpack-react",
+  "homepage": "https://BeanMellow.github.io/shop-admin-panel",
+  "name": "shop-admin-panel",
   "version": "1.0.0",
-  "description": "",
+  "description": "my first project in React.js",
   "main": "webpack.config.js",
   "scripts": {
     "start": "./node_modules/.bin/webpack-dev-server --open --mode development --env.dev",
-    "build": "./node_modules/.bin/webpack --env.prod"
+    "build": "./node_modules/.bin/webpack --env.prod",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "keywords": [],
-  "author": "",
+  "author": "Filip Świętek",
   "license": "ISC",
   "devDependencies": {
     "@babel/core": "^7.2.2",
@@ -29,6 +32,7 @@
     "compression-webpack-plugin": "^2.0.0",
     "css-loader": "^2.0.1",
     "file-loader": "^2.0.0",
+    "gh-pages": "^2.0.1",
     "html-loader": "^0.5.5",
     "html-webpack-plugin": "^3.2.0",
     "mini-css-extract-plugin": "^0.5.0",
