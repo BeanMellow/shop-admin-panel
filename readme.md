@@ -4,6 +4,7 @@
 ### Features:
 * Material UI Framework
 * RWD
+* React Router
 * Fetch current EUR exchange rates from API
 * Add product form:
     * validation
