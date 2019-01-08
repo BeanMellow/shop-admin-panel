@@ -1,26 +1,24 @@
-# Webpack React Demo App
+# Shop admin panel
+### My first project in React
+
+### Features:
+* Material UI Framework
+* RWD
+* Fetch current EUR exchange rates from API
+* Add product form:
+    * validation
+    * data saved in Cloud Firestore database
+* All products (table):
+    * data retrieved from Cloud Firestore database
+    * sorting by any column (numeric / alphabetic)
+    * pagination
+    * edit / delete product (in current component state + database)
 
 ### How to install:
-1. `git clone https://github.com/beniaminrychter/webpack-react-demo`
-2. `cd webpack-react-demo`
+1. `git clone https://github.com/BeanMellow/shop-admin-panel`
+2. `cd shop-admin-panel`
 3. `npm i`
 
 Then `npm start` for development mode, and `npm run build` for production.
 
 In development mode, localhost server will run on `localhost:8080` with autoreloading.
-
-
-### File structure:
-```
-src/
-    images/
-    scss/
-    js/
-    index.js
-    index.html
-webpack.config.js
-package.json
-```
-
-- `index.html` in `src` folder is a HTML template for our project.
-- `index.js` in `src` folder is main JavaScript file with ReactDOM.render() function. This is good place to import `scss` file.
