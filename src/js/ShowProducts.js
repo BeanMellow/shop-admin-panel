@@ -305,20 +305,20 @@ class ShowProducts extends React.Component {
         } else if (type === 'alphabetic') {
             if (direction === 'desc') {
                 newAllProducts.sort((a, b) => {
-                    if (a[column] > b[column]) {
+                    if (a[column].toUpperCase() > b[column].toUpperCase()) {
                         return -1;
                     }
-                    if (a[column] < b[column]) {
+                    if (a[column].toUpperCase() < b[column].toUpperCase()) {
                         return 1;
                     }
                     return 0;
                 });
             } else if (direction === 'asc') {
                 newAllProducts.sort((a, b) => {
-                    if (a[column] < b[column]) {
+                    if (a[column].toUpperCase() < b[column].toUpperCase()) {
                         return -1;
                     }
-                    if (a[column] > b[column]) {
+                    if (a[column].toUpperCase() > b[column].toUpperCase()) {
                         return 1;
                     }
                     return 0;
