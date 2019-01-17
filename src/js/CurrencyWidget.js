@@ -1,9 +1,7 @@
 import React from 'react';
 import {withStyles} from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
-// import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
-// import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -88,37 +86,6 @@ class CurrencyWidget extends React.Component {
         values: []
     };
 
-    // render() {
-    //     const {classes} = this.props;
-    //     // const bull = <span className={classes.bullet}>•</span>;
-    //     return (
-    //         <Grid container spacing={24} justify={'center'} className={classes.root}>
-    //             <Grid item xs={12} container justify={'center'}>
-    //                 <Typography variant={'h5'} align={'center'}>
-    //                     Current EUR exchange rates
-    //                 </Typography>
-    //             </Grid>
-    //             {this.state.currencies.map((curr, i) => (
-    //                 <Grid item xs={12} sm={6} container key={i}>
-    //                     <Card className={classes.card}>
-    //                         <CardContent>
-    //                             <Typography className={classes.title} color="textSecondary" gutterBottom>
-    //                                 EUR to {curr.name}
-    //                             </Typography>
-    //                             <Typography variant="h5" component="h2">
-    //                                 1 EUR  = {(Number(curr.value)).toFixed(3)} {curr.symbol}
-    //                             </Typography>
-    //                             <Typography variant="h5" component="h2">
-    //                                 1 {curr.symbol} = {(1 / Number(curr.value)).toFixed(3)} EUR
-    //                             </Typography>
-    //                         </CardContent>
-    //                     </Card>
-    //                 </Grid>
-    //             ))}
-    //         </Grid>
-    //     );
-    // }
-
     render() {
         const {classes} = this.props;
         // const bull = <span className={classes.bullet}>•</span>;
@@ -126,9 +93,6 @@ class CurrencyWidget extends React.Component {
         return (
             <Grid container spacing={24} justify={'center'} className={classes.root}>
                 <Grid item xs={12} container justify={'center'}>
-                    {/*<Typography variant={'h5'} align={'center'}>*/}
-                    {/*Current EUR exchange rates*/}
-                    {/*</Typography>*/}
                     <Card className={classes.cardTitle}>
                         <Typography variant={'h5'} align={'center'}>
                             Current EUR exchange rates
@@ -171,6 +135,5 @@ class CurrencyWidget extends React.Component {
 
     }
 }
-
 
 export default withStyles(styles)(CurrencyWidget);

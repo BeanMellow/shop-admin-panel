@@ -1,14 +1,6 @@
 import React from 'react';
 import firebase, {db} from "./firebase";
 import ProductForm from './ProductForm';
-// import classNames from 'classnames';
-// import {withStyles} from '@material-ui/core/styles';
-// import Paper from '@material-ui/core/Paper';
-// import Grid from '@material-ui/core/Grid';
-// import MenuItem from '@material-ui/core/MenuItem';
-// import TextField from '@material-ui/core/TextField';
-// import Button from '@material-ui/core/Button';
-
 
 class AddProduct extends React.Component {
     state = {
@@ -29,8 +21,6 @@ class AddProduct extends React.Component {
     };
 
     handleSubmit = () => {
-        // (event)
-        // event.preventDefault();
         db.collection(this.state.category).doc(this.state.SKU).set({
             name: this.state.name,
             category: this.state.category,
@@ -57,8 +47,6 @@ class AddProduct extends React.Component {
     };
 
     render() {
-        // const {classes} = this.props;
-
         return (
             <ProductForm state={this.state}
                          handleChange={this.handleChange}

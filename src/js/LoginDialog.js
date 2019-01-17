@@ -45,12 +45,8 @@ class LoginDialog extends React.Component {
 
         return (
             <div>
-                {/*<Button variant="outlined" color="primary" onClick={this.handleClickOpen}>*/}
-                {/*Open form dialog*/}
-                {/*</Button>*/}
                 <Dialog
                     open={this.state.open}
-                    // onClose={this.handleClose}
                     onBackdropClick={this.props.toggleDialog(false)}
                 >
                     <DialogTitle id="form-dialog-title" className={classes.dialog}>
@@ -98,5 +94,4 @@ class LoginDialog extends React.Component {
     }
 }
 
-// export default LoginDialog;
 export default withStyles(styles)(LoginDialog);

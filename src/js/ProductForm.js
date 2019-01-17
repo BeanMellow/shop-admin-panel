@@ -1,6 +1,4 @@
 import React from 'react';
-// import firebase, {db} from "./firebase";
-// import classNames from 'classnames';
 import {withStyles} from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
@@ -8,12 +6,8 @@ import MenuItem from '@material-ui/core/MenuItem';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-// import CardContent from "@material-ui/core/CardContent/CardContent";
 
 const styles = theme => ({
-    // root: {
-    //     flexGrow: 1
-    // },
     grid: {
       minWidth: 500
     },
@@ -133,9 +127,8 @@ class ProductForm extends React.Component {
                     <Typography variant="h5" component="h2" align={'center'} gutterBottom>
                         {this.props.isEdit ? 'EDIT PRODUCT' : 'ADD PRODUCT'}
                     </Typography>
-                    {/* I removed < noValidate > from form props */}
-                    {/*onSubmit={this.props.handleSubmit}*/}
-                    <form onSubmit={this.validation} className={classes.container}
+                    <form onSubmit={this.validation}
+                          className={classes.container}
                           noValidate
                           autoComplete='off'>
                         <Grid item xs={12} sm={6} container justify={'center'} alignContent={'center'}>
@@ -196,7 +189,6 @@ class ProductForm extends React.Component {
                                 className={classes.textField}
                                 value={product.category}
                                 onChange={this.props.handleChange('category')}
-                                // helperText='Please select product category'
                                 helperText={this.props.isEdit ? 'Edit mode - can\'t change category' : 'Please select product category'}
                                 margin='dense'
                             >
@@ -283,7 +275,6 @@ class ProductForm extends React.Component {
                                 type={'submit'}
                                 // size={'large'}
                             >
-                                {/*Add product*/}
                                 {this.props.isEdit ? 'Confirm changes' : 'Add product'}
                             </Button>
                         </Grid>

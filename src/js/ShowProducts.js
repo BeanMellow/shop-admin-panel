@@ -1,6 +1,5 @@
 import React from 'react';
 import firebase, {db} from './firebase';
-// import classNames from 'classnames';
 import {withStyles} from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -9,15 +8,9 @@ import TableHead from '@material-ui/core/TableHead';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 import TableSortLabel from '@material-ui/core/TableSortLabel';
-// import Toolbar from '@material-ui/core/Toolbar';
-// import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
-// import Checkbox from '@material-ui/core/Checkbox';
 import IconButton from '@material-ui/core/IconButton';
 import Tooltip from '@material-ui/core/Tooltip';
-// import DeleteIcon from '@material-ui/icons/Delete';
-// import FilterListIcon from '@material-ui/icons/FilterList';
-// import {lighten} from '@material-ui/core/styles/colorManipulator';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
@@ -26,7 +19,6 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import EditProduct from "./EditProduct";
-// import {NavLink} from "react-router-dom";
 
 const styles = theme => ({
     grow: {
@@ -88,7 +80,7 @@ const TableHeader = (props) => {
         {
             displayName: 'Description',
             objectName: 'description'
-        },
+        }
         // {
         //     displayName: 'Action',
         //     objectName: 'action'
@@ -124,7 +116,6 @@ const TableHeader = (props) => {
                     >
                         <Tooltip
                             title="Sort"
-                            // placement={props.sort.type === 'numeric' ? 'bottom-end' : 'bottom-start'}
                             placement={'bottom-start'}
                             enterDelay={300}
                         >
@@ -159,42 +150,14 @@ const ProductRows = props => (
                 <IconButton onClick={props.handleEdit(product)} variant={'extendedFab'}>
                     <i className='material-icons'>edit</i>
                 </IconButton>
-                {/*<EditDialog SKU={product.SKU} category={product.category} name={product.name} handleEdit={props.handleEdit}/>*/}
-                {/*<IconButton onClick={handleDelete} variant={'extendedFab'}><i className='material-icons'>*/}
-                {/*delete*/}
-                {/*</i></IconButton>*/}
-                <DeleteDialog SKU={product.SKU} category={product.category} name={product.name}
+                <DeleteDialog SKU={product.SKU}
+                              category={product.category}
+                              name={product.name}
                               handleDelete={props.handleDelete}/>
             </TableCell>
         </TableRow>
     ))
 );
-
-// const ProductRows = withStyles(styles)(props => (
-//     props.allProducts.map(product => (
-//         <TableRow key={product.SKU}>
-//             <TableCell className={props.classes.smallCol}>{product.name}</TableCell>
-//             <TableCell>{product.category}</TableCell>
-//             <TableCell>{product.price}</TableCell>
-//             <TableCell>{product.currency}</TableCell>
-//             <TableCell>{product.SKU}</TableCell>
-//             {/*<TableCell>{product.imageUrl}</TableCell>*/}
-//             <TableCell>{product.quantity}</TableCell>
-//             <TableCell>{product.description}</TableCell>
-//             <TableCell>
-//                 <IconButton onClick={props.handleEdit} variant={'extendedFab'}><i className='material-icons'>
-//                     edit
-//                 </i></IconButton>
-//                 {/*<EditDialog SKU={product.SKU} category={product.category} name={product.name} handleEdit={props.handleEdit}/>*/}
-//                 {/*<IconButton onClick={handleDelete} variant={'extendedFab'}><i className='material-icons'>*/}
-//                 {/*delete*/}
-//                 {/*</i></IconButton>*/}
-//                 <DeleteDialog SKU={product.SKU} category={product.category} name={product.name}
-//                               handleDelete={props.handleDelete}/>
-//             </TableCell>
-//         </TableRow>
-//     ))
-// ));
 
 class DeleteDialog extends React.Component {
     state = {
@@ -215,9 +178,8 @@ class DeleteDialog extends React.Component {
                 <IconButton onClick={this.handleClickOpen} variant={'extendedFab'}><i className='material-icons'>
                     delete
                 </i></IconButton>
-                <Dialog
-                    open={this.state.open}
-                    onClose={this.handleClose}
+                <Dialog open={this.state.open}
+                        onClose={this.handleClose}
                 >
                     <DialogTitle id='delete-dialog-title'>Delete {this.props.name}</DialogTitle>
                     <DialogContent>
@@ -390,7 +352,6 @@ class ShowProducts extends React.Component {
                     <Paper className={classes.root}>
                         <div className={classes.tableWrapper}>
                             <Table className={classes.table}>
-                                {/*test colgroup*/}
                                 <colgroup>
                                     <col style={{width: '14%'}}/>
                                     <col style={{width: '12%'}}/>
