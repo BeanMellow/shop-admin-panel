@@ -1,9 +1,10 @@
 import React from 'react';
-import CurrencyWidget from "./CurrencyWidget";
+// import CurrencyWidget from "./CurrencyWidget";
+import CurrencyWidgetNBP from "./CurrencyWidgetNBP";
 
 const Main = () => {
     return (
-        <CurrencyWidget/>
+        <CurrencyWidgetNBP/>
     );
 };
 
