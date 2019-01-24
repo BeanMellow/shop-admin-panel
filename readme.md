@@ -6,7 +6,7 @@ https://beanmellow.github.io/shop-admin-panel/
 * **Material UI Framework**
 * **RWD**
 * routing (**React Router**)
-* **Fetch** current EUR exchange rates from **REST API**
+* **Fetch** current PLN exchange rates from **REST API**
 * Add product **form**:
     * **validation**
     * data saved in **Cloud Firestore database**
